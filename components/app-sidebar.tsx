@@ -46,7 +46,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-[0_0_12px_rgba(34,184,207,0.3)]">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-[0_0_12px_rgba(245,158,11,0.3)]">
                   <BookOpen className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">

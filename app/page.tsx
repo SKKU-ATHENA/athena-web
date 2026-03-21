@@ -26,7 +26,7 @@ export default function HomePage() {
 
       {/* ── Pre-assignment CTA ── */}
       <div
-        className="animate-fade-up group rounded-xl border border-primary/30 bg-[var(--forge-glow)] p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-[0_12px_40px_rgba(34,184,207,0.15)]"
+        className="animate-fade-up group rounded-xl border border-primary/30 bg-[var(--forge-glow)] p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-[0_12px_40px_rgba(245,158,11,0.15)]"
         style={{ animationDelay: "0.08s" }}
       >
         <div className="flex items-start gap-4">

@@ -20,7 +20,7 @@ export function MilestoneTracker() {
                 className={cn(
                   "flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold transition-all duration-300",
                   milestone.status === "completed" &&
-                    "bg-primary text-primary-foreground shadow-[0_0_20px_rgba(34,184,207,0.35)]",
+                    "bg-primary text-primary-foreground shadow-[0_0_20px_rgba(245,158,11,0.35)]",
                   milestone.status === "in-progress" &&
                     "border-2 border-primary bg-[var(--forge-glow)] text-primary",
                   milestone.status === "upcoming" &&
