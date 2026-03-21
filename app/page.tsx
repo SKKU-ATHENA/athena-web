@@ -20,7 +20,7 @@ export default function HomePage() {
         <h1 className="bg-gradient-to-b from-foreground via-foreground/90 to-muted-foreground bg-clip-text text-[clamp(2rem,5vw,3rem)] font-extrabold tracking-[-0.035em] text-transparent">
           ATHENA 학습 허브
         </h1>
-        <p className="mt-2 text-muted-foreground">
+        <p className="mt-3 text-lg text-muted-foreground">
           AI 기반 지식 관리 시스템 — 학습 자료 정리
         </p>
       </div>
@@ -35,7 +35,7 @@ export default function HomePage() {
 
       {/* ── Pre-assignment CTA ── */}
       <div
-        className="animate-fade-up group rounded-xl border border-[var(--forge-border)] bg-[var(--forge-glow)] p-6 transition-all duration-300 hover:shadow-[0_12px_40px_rgba(34,184,207,0.12)]"
+        className="animate-fade-up group rounded-xl border border-primary/30 bg-[var(--forge-glow)] p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-[0_12px_40px_rgba(34,184,207,0.15)]"
         style={{ animationDelay: "0.08s" }}
       >
         <div className="flex items-start gap-4">
@@ -62,6 +62,7 @@ export default function HomePage() {
 
       {/* ── Study Materials ── */}
       <div>
+        <div className="mb-6 h-px bg-[var(--forge-border-subtle)]" />
         <h2
           className="animate-fade-up mb-5 text-xl font-bold tracking-tight"
           style={{ animationDelay: "0.12s" }}
@@ -85,9 +86,12 @@ export default function HomePage() {
                       {material.title}
                     </h3>
                   </div>
-                  <p className="mt-2.5 text-[0.8rem] leading-relaxed text-muted-foreground">
+                  <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
                     {material.description}
                   </p>
+                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    자세히 보기 →
+                  </span>
                 </div>
               </Link>
             );

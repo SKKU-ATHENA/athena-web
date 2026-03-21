@@ -278,7 +278,7 @@ export default function PreAssignmentPage() {
 
       {/* Part 1: RAG Pipeline */}
       <section>
-        <h2 className="mb-1 text-2xl font-semibold">Part 1: RAG 파이프라인 조립</h2>
+        <h2 className="mb-1 text-2xl font-bold tracking-tight">Part 1: RAG 파이프라인 조립</h2>
         <p className="mb-6 text-muted-foreground">
           가이드 Notebook을 따라가며 파이프라인을 조립한다.
         </p>
@@ -325,7 +325,7 @@ export default function PreAssignmentPage() {
 
                   {/* Code */}
                   <div className="overflow-x-auto rounded-xl border border-border bg-[var(--forge-surface)] p-5">
-                    <pre className="font-mono text-[0.8rem] leading-[1.7] text-foreground">
+                    <pre className="font-mono text-[0.875rem] leading-[1.6] text-foreground">
                       <code>{step.code}</code>
                     </pre>
                   </div>
@@ -362,9 +362,9 @@ export default function PreAssignmentPage() {
       <section>
         <div className="mb-1 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20">
-            <HelpCircle className="h-5 w-5 text-amber-400" />
+            <HelpCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
           </div>
-          <h2 className="text-2xl font-semibold">Part 2: 한계 발견</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Part 2: 한계 발견</h2>
         </div>
         <p className="mb-6 text-muted-foreground">
           만든 RAG에 4가지 유형의 질문을 던진다.
@@ -425,9 +425,9 @@ export default function PreAssignmentPage() {
       <section>
         <div className="mb-1 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 border border-purple-500/20">
-            <GitCompare className="h-5 w-5 text-purple-400" />
+            <GitCompare className="h-5 w-5 text-purple-600 dark:text-purple-400" />
           </div>
-          <h2 className="text-2xl font-semibold">Part 3: GraphRAG 비교</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Part 3: GraphRAG 비교</h2>
         </div>
         <p className="mb-6 text-muted-foreground">
           같은 데이터에 Microsoft GraphRAG를 돌린다 (팀 1회 공동 실행, 결과
@@ -443,7 +443,7 @@ export default function PreAssignmentPage() {
                 "GraphRAG가 뭘 다르게 했길래 답변이 달라졌는지 분석",
               ].map((text, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-lg bg-purple-500/10 text-xs font-bold text-purple-400">
+                  <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-lg bg-purple-500/10 text-xs font-bold text-purple-600 dark:text-purple-400">
                     {i + 1}
                   </span>
                   <p className="text-sm">{text}</p>
@@ -457,7 +457,7 @@ export default function PreAssignmentPage() {
               href="https://github.com/microsoft/graphrag"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-emerald-400 transition-opacity hover:opacity-80"
+              className="inline-flex items-center rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 font-mono text-[0.7rem] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 transition-opacity hover:opacity-80"
             >
               GitHub — microsoft/graphrag (25k+ stars)
             </a>
@@ -465,7 +465,7 @@ export default function PreAssignmentPage() {
               href="https://arxiv.org/abs/2404.16130"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center rounded-md border border-purple-500/20 bg-purple-500/10 px-2.5 py-1 font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-purple-400 transition-opacity hover:opacity-80"
+              className="inline-flex items-center rounded-md border border-purple-500/20 bg-purple-500/10 px-2.5 py-1 font-mono text-[0.7rem] font-semibold uppercase tracking-wider text-purple-700 dark:text-purple-400 transition-opacity hover:opacity-80"
             >
               논문 — From Local to Global (arXiv 2024)
             </a>
@@ -509,7 +509,7 @@ export default function PreAssignmentPage() {
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-muted">
             <ClipboardList className="h-5 w-5 text-foreground" />
           </div>
-          <h2 className="text-2xl font-semibold">산출물</h2>
+          <h2 className="text-2xl font-bold tracking-tight">산출물</h2>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">

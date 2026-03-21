@@ -109,7 +109,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <div className="px-3 py-2 font-mono text-[0.6rem] uppercase tracking-[0.06em] text-muted-foreground/50">
+        <div className="px-3 py-2 font-mono text-[0.6rem] uppercase tracking-[0.06em] text-muted-foreground/70">
           ATHENA &copy; 2026
         </div>
       </SidebarFooter>

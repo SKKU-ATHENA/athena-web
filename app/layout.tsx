@@ -43,7 +43,7 @@ export default function RootLayout({
               <AppSidebar />
               <SidebarInset>
                 <SiteHeader />
-                <main className="flex-1 overflow-auto p-4 md:p-8">
+                <main className="flex-1 overflow-auto px-5 py-6 md:p-8">
                   {children}
                 </main>
               </SidebarInset>
