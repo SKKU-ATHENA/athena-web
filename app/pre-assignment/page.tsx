@@ -53,7 +53,7 @@ def chunk_text(text: str, chunk_size: int = 300, overlap: int = 50) -> list[str]
 for size in [50, 300, 1000]:
     chunks = chunk_text(document, chunk_size=size)
     print(f"chunk_size={size}: {len(chunks)}개 청크")`,
-    relatedStudy: null,
+    relatedStudy: "rag-architecture",
   },
   {
     number: 2,
@@ -258,7 +258,39 @@ export default function PreAssignmentPage() {
           <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary dark:bg-primary/20">
             Jupyter Notebook
           </span>
+          <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary dark:bg-primary/20">
+            예상 소요: 4~6시간
+          </span>
         </div>
+
+        {/* Part Navigation */}
+        <nav className="mt-6 flex items-center gap-0 rounded-xl border border-border bg-[var(--forge-surface)] p-1">
+          <a href="#part-1" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-medium text-primary hover:bg-primary/5 transition-colors">
+            Part 1: 조립
+          </a>
+          <div className="h-4 w-px bg-border" />
+          <a href="#part-2" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-medium text-muted-foreground hover:bg-primary/5 hover:text-primary transition-colors">
+            Part 2: 한계
+          </a>
+          <div className="h-4 w-px bg-border" />
+          <a href="#part-3" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-medium text-muted-foreground hover:bg-primary/5 hover:text-primary transition-colors">
+            Part 3: 비교
+          </a>
+        </nav>
+      </div>
+
+      {/* Prerequisites */}
+      <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 dark:bg-amber-500/10">
+        <p className="flex items-start gap-2 text-sm text-muted-foreground">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+          <span>
+            시작 전에{" "}
+            <Link href="/study/environment-setup" className="font-medium text-primary hover:underline">
+              환경 세팅 가이드
+            </Link>
+            를 완료하세요. Python 3.11, uv, Jupyter, Ollama가 필요합니다.
+          </span>
+        </p>
       </div>
 
       {/* Data Info */}
@@ -277,7 +309,7 @@ export default function PreAssignmentPage() {
       <Separator className="opacity-50" />
 
       {/* Part 1: RAG Pipeline */}
-      <section>
+      <section id="part-1">
         <h2 className="mb-1 text-2xl font-bold tracking-tight">Part 1: RAG 파이프라인 조립</h2>
         <p className="mb-6 text-muted-foreground">
           가이드 Notebook을 따라가며 파이프라인을 조립한다.
@@ -347,10 +379,15 @@ export default function PreAssignmentPage() {
         </div>
 
         <Card className="mt-6 border-primary/20 bg-primary/5 shadow-[0_22px_70px_-34px_rgba(34,27,20,0.08)] dark:border-primary/30 dark:bg-primary/10">
-          <CardContent className="flex items-center gap-2 pt-6">
-            <CheckCircle2 className="h-5 w-5 text-primary" />
-            <p className="font-medium">
-              Part 1 완료: 질문 → 검색 → 답변이 동작하는 RAG
+          <CardContent className="space-y-2 pt-6">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-primary" />
+              <p className="font-medium">
+                Part 1 완료: 질문 → 검색 → 답변이 동작하는 RAG
+              </p>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              다음 단계: 만든 RAG에 다양한 유형의 질문을 던져서 한계를 발견한다. ↓
             </p>
           </CardContent>
         </Card>
@@ -359,7 +396,7 @@ export default function PreAssignmentPage() {
       <Separator className="opacity-50" />
 
       {/* Part 2: Limitations */}
-      <section>
+      <section id="part-2">
         <div className="mb-1 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20">
             <HelpCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
@@ -422,7 +459,7 @@ export default function PreAssignmentPage() {
       <Separator className="opacity-50" />
 
       {/* Part 3: GraphRAG Comparison */}
-      <section>
+      <section id="part-3">
         <div className="mb-1 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 border border-purple-500/20">
             <GitCompare className="h-5 w-5 text-purple-600 dark:text-purple-400" />

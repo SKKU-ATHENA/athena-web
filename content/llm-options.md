@@ -129,4 +129,4 @@ vector = model.encode("인공지능")
 
 ## 다음으로 읽을 자료
 - [GraphRAG 개념](/study/graphrag-concepts) — 기본 RAG를 넘어 지식 그래프를 활용한 고급 검색 생성 기법을 알아본다.
-- [사전 과제](/study/pre-assignment) — 학습한 내용을 바탕으로 직접 RAG 시스템을 구현하는 실습 과제를 진행한다.
+- [사전 과제](/pre-assignment) — 학습한 내용을 바탕으로 직접 RAG 시스템을 구현하는 실습 과제를 진행한다.

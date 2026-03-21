@@ -155,4 +155,4 @@ uv pip install jupyter ollama chromadb sentence-transformers numpy
 
 ## 다음으로 읽을 자료
 - [임베딩이란?](/study/embedding-concepts) — 텍스트를 벡터로 변환하는 임베딩의 원리와 활용법을 이해한다.
-- [사전 과제](/study/pre-assignment) — 환경 세팅을 마쳤다면 바로 실습 과제를 시작한다.
+- [사전 과제](/pre-assignment) — 환경 세팅을 마쳤다면 바로 실습 과제를 시작한다.
