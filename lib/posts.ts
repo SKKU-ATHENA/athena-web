@@ -52,13 +52,19 @@ export async function getPost(slug: string) {
     .use(html, { sanitize: false })
     .process(content);
 
+  // Rewrite internal links with basePath for GitHub Pages
+  const basePath = process.env.__NEXT_ROUTER_BASEPATH || "/athena-web";
+  const htmlContent = processedContent
+    .toString()
+    .replace(/href="\/(study|pre-assignment)/g, `href="${basePath}/$1`);
+
   return {
     slug,
     title: (data.title as string) || slug,
     description: (data.description as string) || "",
     sources: data.sources as PostMeta["sources"],
     youtube: data.youtube as string[],
-    contentHtml: processedContent.toString(),
+    contentHtml: htmlContent,
   };
 }
 

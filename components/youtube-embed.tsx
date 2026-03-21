@@ -6,7 +6,7 @@ export function YouTubeEmbed({
   title?: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-[var(--forge-surface)] shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
+    <div className="overflow-hidden rounded-xl border border-border bg-[var(--forge-surface)] shadow-[0_22px_70px_-34px_rgba(34,27,20,0.08)]">
       <div className="relative aspect-video w-full">
         <iframe
           src={`https://www.youtube.com/embed/${videoId}`}

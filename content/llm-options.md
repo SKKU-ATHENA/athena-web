@@ -12,7 +12,7 @@ sources:
     label: "Anthropic API 문서"
     url: "https://docs.anthropic.com/"
 youtube:
-  - "JA_wTC3BZWQ"
+  - "5sLYAQS9sWQ"
 ---
 
 ## 개요

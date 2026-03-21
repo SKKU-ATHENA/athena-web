@@ -228,10 +228,10 @@ export default function PreAssignmentPage() {
       {/* Header */}
       <div>
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 dark:bg-primary/20">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 dark:bg-primary/20">
             <FlaskConical className="h-6 w-6 text-primary" />
           </div>
-          <h1 className="text-4xl font-semibold tracking-tight">
+          <h1 className="text-4xl font-extrabold tracking-tight">
             내 손으로 만드는 RAG
           </h1>
         </div>
@@ -312,7 +312,7 @@ export default function PreAssignmentPage() {
         </p>
 
         <div className="my-6 overflow-hidden rounded-xl border border-border">
-          <img src="/diagrams/rag-pipeline.png" alt="RAG Pipeline Architecture" className="w-full" />
+          <img src="/athena-web/diagrams/rag-pipeline.png" alt="RAG Pipeline Architecture" className="w-full" />
         </div>
 
         <div className="space-y-6">
@@ -322,7 +322,7 @@ export default function PreAssignmentPage() {
               <Card key={step.number} id={`step-${step.number}`} className="shadow-[0_22px_70px_-34px_rgba(34,27,20,0.08)] backdrop-blur-sm">
                 <CardHeader>
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-primary text-sm font-bold text-primary-foreground">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-sm font-bold text-primary-foreground">
                       {step.number}
                     </div>
                     <div className="flex items-center gap-2">
@@ -336,7 +336,7 @@ export default function PreAssignmentPage() {
                 </CardHeader>
                 <CardContent className="ml-0 space-y-4 md:ml-12">
                   {/* Experiment */}
-                  <div className="rounded-2xl border border-primary/10 bg-primary/5 p-4 dark:border-primary/20 dark:bg-primary/10">
+                  <div className="rounded-xl border border-primary/10 bg-primary/5 p-4 dark:border-primary/20 dark:bg-primary/10">
                     <h4 className="mb-2 text-sm font-semibold">
                       {step.experiment.title}
                     </h4>
@@ -458,7 +458,7 @@ export default function PreAssignmentPage() {
         <Card className="mt-6 shadow-[0_22px_70px_-34px_rgba(34,27,20,0.08)] backdrop-blur-sm">
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-amber-500 text-sm font-bold text-white">6</div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500 text-sm font-bold text-white">6</div>
               <CardTitle>RAG 개선 아이디어</CardTitle>
             </div>
             <CardDescription className="ml-0 md:ml-12">
@@ -466,7 +466,7 @@ export default function PreAssignmentPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="ml-0 space-y-4 md:ml-12">
-            <div className="rounded-2xl border border-amber-500/10 bg-amber-500/5 p-4">
+            <div className="rounded-xl border border-amber-500/10 bg-amber-500/5 p-4">
               <h4 className="mb-2 text-sm font-semibold">할 일</h4>
               <ul className="space-y-1">
                 <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">한계를 해결할 방법 3가지 이상 제안</li>
@@ -495,7 +495,7 @@ export default function PreAssignmentPage() {
         </p>
 
         <div className="mb-6 overflow-hidden rounded-xl border border-border">
-          <img src="/diagrams/graphrag-compare.png" alt="GraphRAG vs Basic RAG" className="w-full" />
+          <img src="/athena-web/diagrams/graphrag-compare.png" alt="GraphRAG vs Basic RAG" className="w-full" />
         </div>
 
         <div className="space-y-4">
@@ -547,7 +547,7 @@ export default function PreAssignmentPage() {
         <Card className="mt-6 shadow-[0_22px_70px_-34px_rgba(34,27,20,0.08)] backdrop-blur-sm">
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-purple-500 text-sm font-bold text-white">8</div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500 text-sm font-bold text-white">8</div>
               <CardTitle>ATHENA를 위한 RAG 아키텍처 설계</CardTitle>
             </div>
             <CardDescription className="ml-0 md:ml-12">
@@ -555,7 +555,7 @@ export default function PreAssignmentPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="ml-0 space-y-4 md:ml-12">
-            <div className="rounded-2xl border border-purple-500/10 bg-purple-500/5 p-4">
+            <div className="rounded-xl border border-purple-500/10 bg-purple-500/5 p-4">
               <h4 className="mb-2 text-sm font-semibold">할 일</h4>
               <ul className="space-y-1">
                 <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">ATHENA 핵심 요구사항 정리 (의사결정 근거 검색, 인과 사슬 응답)</li>
@@ -565,7 +565,7 @@ export default function PreAssignmentPage() {
               <p className="mt-3 text-sm font-medium text-purple-700 dark:text-purple-400">산출물: 아키텍처 설계 문서 + 다이어그램</p>
             </div>
             <div className="overflow-hidden rounded-xl border border-border">
-              <img src="/diagrams/athena-v2.png" alt="ATHENA v2 Architecture" className="w-full" />
+              <img src="/athena-web/diagrams/athena-v2.png" alt="ATHENA v2 Architecture" className="w-full" />
               <p className="bg-muted/50 px-4 py-2 text-xs text-muted-foreground">참고: ATHENA v2 목표 아키텍처 (LangGraph StateGraph)</p>
             </div>
           </CardContent>
@@ -594,8 +594,6 @@ export default function PreAssignmentPage() {
 
       <Separator className="opacity-50" />
 
-      <Separator className="opacity-50" />
-
       {/* Part 4: Self-Reflection */}
       <section id="part-4">
         <div className="mb-1 flex items-center gap-3">
@@ -609,7 +607,7 @@ export default function PreAssignmentPage() {
         <Card className="shadow-[0_22px_70px_-34px_rgba(34,27,20,0.08)] backdrop-blur-sm">
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-emerald-500 text-sm font-bold text-white">9</div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500 text-sm font-bold text-white">9</div>
               <CardTitle>전체 회고</CardTitle>
             </div>
             <CardDescription className="ml-0 md:ml-12">
@@ -617,7 +615,7 @@ export default function PreAssignmentPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="ml-0 space-y-4 md:ml-12">
-            <div className="rounded-2xl border border-emerald-500/10 bg-emerald-500/5 p-4">
+            <div className="rounded-xl border border-emerald-500/10 bg-emerald-500/5 p-4">
               <h4 className="mb-2 text-sm font-semibold">필수 항목</h4>
               <ul className="space-y-1">
                 <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">가장 어려웠던 점과 해결 과정</li>
@@ -638,7 +636,7 @@ export default function PreAssignmentPage() {
       {/* Deliverables */}
       <section>
         <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-muted">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted">
             <ClipboardList className="h-5 w-5 text-foreground" />
           </div>
           <h2 className="text-2xl font-bold tracking-tight">산출물</h2>

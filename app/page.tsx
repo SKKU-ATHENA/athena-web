@@ -47,7 +47,7 @@ export default function HomePage() {
             </div>
             <Link
               href="/pre-assignment"
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#22b8cf] to-[#67e8f9] px-5 py-2.5 text-sm font-semibold text-[#0a0c0d] shadow-[0_4px_20px_rgba(34,184,207,0.3),inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-[250ms] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(34,184,207,0.45),inset_0_1px_0_rgba(255,255,255,0.15)]"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/60 px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[0_4px_20px_var(--forge-glow)] transition-all duration-[250ms] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_var(--forge-glow)]"
             >
               시작하기 <ArrowRight className="h-4 w-4" />
             </Link>
