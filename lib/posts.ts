@@ -4,55 +4,69 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 
-const contentDir = path.join(process.cwd(), "content");
+const contentDirectory = path.join(process.cwd(), "content");
 
 export interface PostMeta {
   slug: string;
   title: string;
-  date: string;
-  author: string;
-  description?: string;
+  description: string;
+  sources?: {
+    type: "official-docs" | "github" | "youtube" | "paper";
+    label: string;
+    url: string;
+  }[];
+  youtube?: string[];
 }
 
 export function getAllPosts(): PostMeta[] {
-  if (!fs.existsSync(contentDir)) return [];
+  if (!fs.existsSync(contentDirectory)) return [];
 
-  const files = fs.readdirSync(contentDir).filter((f) => f.endsWith(".md"));
+  const fileNames = fs.readdirSync(contentDirectory);
+  return fileNames
+    .filter((name) => name.endsWith(".md"))
+    .map((fileName) => {
+      const slug = fileName.replace(/\.md$/, "");
+      const filePath = path.join(contentDirectory, fileName);
+      const fileContents = fs.readFileSync(filePath, "utf8");
+      const { data } = matter(fileContents);
 
-  const posts = files.map((filename) => {
-    const slug = filename.replace(/\.md$/, "");
-    const filePath = path.join(contentDir, filename);
-    const fileContent = fs.readFileSync(filePath, "utf-8");
-    const { data } = matter(fileContent);
-
-    return {
-      slug,
-      title: data.title ?? slug,
-      date: data.date ?? "",
-      author: data.author ?? "",
-      description: data.description,
-    };
-  });
-
-  return posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+      return {
+        slug,
+        title: (data.title as string) || slug,
+        description: (data.description as string) || "",
+        sources: data.sources,
+        youtube: data.youtube,
+      };
+    });
 }
 
 export async function getPost(slug: string) {
-  const filePath = path.join(contentDir, `${slug}.md`);
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(fileContent);
+  const filePath = path.join(contentDirectory, `${slug}.md`);
 
-  const processed = await remark().use(html).process(content);
-  const contentHtml = processed.toString();
+  if (!fs.existsSync(filePath)) return null;
+
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const { data, content } = matter(fileContents);
+
+  const processedContent = await remark()
+    .use(html, { sanitize: false })
+    .process(content);
 
   return {
     slug,
-    title: data.title ?? slug,
-    date: data.date ?? "",
-    author: data.author ?? "",
-    description: data.description,
-    contentHtml,
+    title: (data.title as string) || slug,
+    description: (data.description as string) || "",
+    sources: data.sources as PostMeta["sources"],
+    youtube: data.youtube as string[],
+    contentHtml: processedContent.toString(),
   };
+}
+
+export function getPostSlugs(): string[] {
+  if (!fs.existsSync(contentDirectory)) return [];
+
+  return fs
+    .readdirSync(contentDirectory)
+    .filter((name) => name.endsWith(".md"))
+    .map((name) => name.replace(/\.md$/, ""));
 }

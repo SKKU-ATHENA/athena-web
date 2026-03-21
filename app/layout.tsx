@@ -1,27 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Sora, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-
 import { ThemeProvider } from "@/components/theme-provider";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
-  title: "ATHENA — 학습 정리",
-  description:
-    "ATHENA 프로젝트 학습 정리 웹사이트 · AI 기반 지식 관리 시스템 스터디",
+  title: "ATHENA 학습 허브",
+  description: "AI 기반 지식 관리 시스템 — 학습 자료 정리",
 };
 
 export default function RootLayout({
@@ -30,15 +30,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ko"
-      className={`${geistSans.variable} ${geistMono.variable}`}
-      suppressHydrationWarning
-    >
-      <body className="min-h-svh antialiased">
+    <html lang="ko" className="dark" suppressHydrationWarning>
+      <body className={`${sora.variable} ${jetbrainsMono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
@@ -47,7 +43,9 @@ export default function RootLayout({
               <AppSidebar />
               <SidebarInset>
                 <SiteHeader />
-                <div className="flex-1">{children}</div>
+                <main className="flex-1 overflow-auto p-4 md:p-8">
+                  {children}
+                </main>
               </SidebarInset>
             </SidebarProvider>
           </TooltipProvider>

@@ -1,38 +1,32 @@
+"use client";
+
 const STORAGE_KEY = "athena-study-progress";
 
-export type ProgressMap = Record<string, boolean>;
-
-export function getProgress(): ProgressMap {
+export function getProgress(): Record<string, boolean> {
   if (typeof window === "undefined") return {};
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : {};
   } catch {
     return {};
   }
 }
 
-export function setItemComplete(slug: string, complete: boolean) {
+export function setProgress(slug: string, completed: boolean) {
   const progress = getProgress();
-  if (complete) {
+  if (completed) {
     progress[slug] = true;
   } else {
     delete progress[slug];
   }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-  return progress;
 }
 
-export function isComplete(slug: string): boolean {
+export function isCompleted(slug: string): boolean {
   return getProgress()[slug] === true;
 }
 
-export function getCompletionCount(slugs: string[]): number {
+export function getCompletedCount(slugs: string[]): number {
   const progress = getProgress();
-  return slugs.filter((s) => progress[s]).length;
-}
-
-export function getCompletionPercent(slugs: string[]): number {
-  if (slugs.length === 0) return 0;
-  return Math.round((getCompletionCount(slugs) / slugs.length) * 100);
+  return slugs.filter((slug) => progress[slug]).length;
 }
