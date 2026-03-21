@@ -13,6 +13,7 @@ import {
   AlertTriangle,
   CheckCircle2,
   XCircle,
+  PenLine,
 } from "lucide-react";
 import {
   Card,
@@ -212,22 +213,13 @@ const questionTypes = [
 ];
 
 const deliverables = [
-  {
-    title: "동작하는 RAG",
-    description: "Jupyter Notebook, 실행 가능",
-  },
-  {
-    title: "도구 선택 보고서",
-    description: "임베딩 모델 / 벡터 DB / LLM 뭘 골랐고 왜 (300자+)",
-  },
-  {
-    title: "질문 테스트 결과표",
-    description: "유형별 내 RAG vs GraphRAG 비교",
-  },
-  {
-    title: "한계 분석",
-    description: "기본 RAG의 한계, GraphRAG의 차이점 (500자+)",
-  },
+  { title: "동작하는 RAG", description: "Jupyter Notebook, Colab 실행 가능" },
+  { title: "도구 선택 보고서", description: "임베딩 모델 / 벡터 DB / LLM 뭘 골랐고 왜 (300자+)" },
+  { title: "질문 테스트 결과표", description: "4가지 유형 × 12개 질문, 내 RAG vs GraphRAG 비교" },
+  { title: "RAG vs GraphRAG 비교표", description: "같은 질문에 대한 답변 나란히 비교" },
+  { title: "한계 분석 + 개선 시도", description: "기본 RAG 한계, Advanced RAG 기법 1개 이상 시도 (500자+)" },
+  { title: "아키텍처 설계", description: "ATHENA용 RAG 아키텍처 다이어그램 + 설명" },
+  { title: "전체 회고", description: "사고 과정과 깨달음 에세이 (500자+)" },
 ];
 
 export default function PreAssignmentPage() {
@@ -250,7 +242,7 @@ export default function PreAssignmentPage() {
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary dark:bg-primary/20">
-            Ollama 로컬 모델
+            Google Colab
           </span>
           <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary dark:bg-primary/20">
             비용 0원
@@ -259,7 +251,7 @@ export default function PreAssignmentPage() {
             Jupyter Notebook
           </span>
           <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary dark:bg-primary/20">
-            예상 소요: 4~6시간
+            9문제 · 4파트
           </span>
         </div>
 
@@ -276,6 +268,10 @@ export default function PreAssignmentPage() {
           <a href="#part-3" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-medium text-muted-foreground hover:bg-primary/5 hover:text-primary transition-colors">
             Part 3: 비교
           </a>
+          <div className="h-4 w-px bg-border" />
+          <a href="#part-4" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-medium text-muted-foreground hover:bg-primary/5 hover:text-primary transition-colors">
+            Part 4: 성찰
+          </a>
         </nav>
       </div>
 
@@ -288,7 +284,7 @@ export default function PreAssignmentPage() {
             <Link href="/study/environment-setup" className="font-medium text-primary hover:underline">
               환경 세팅 가이드
             </Link>
-            를 완료하세요. Python 3.11, uv, Jupyter, Ollama가 필요합니다.
+            를 완료하세요. Google Colab을 사용하므로 별도 설치는 불필요하지만, 기본 개념을 확인하세요.
           </span>
         </p>
       </div>
@@ -314,6 +310,10 @@ export default function PreAssignmentPage() {
         <p className="mb-6 text-muted-foreground">
           가이드 Notebook을 따라가며 파이프라인을 조립한다.
         </p>
+
+        <div className="my-6 overflow-hidden rounded-xl border border-border">
+          <img src="/diagrams/rag-pipeline.png" alt="RAG Pipeline Architecture" className="w-full" />
+        </div>
 
         <div className="space-y-6">
           {steps.map((step) => {
@@ -454,6 +454,29 @@ export default function PreAssignmentPage() {
             </ul>
           </CardContent>
         </Card>
+
+        <Card className="mt-6 shadow-[0_22px_70px_-34px_rgba(34,27,20,0.08)] backdrop-blur-sm">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-amber-500 text-sm font-bold text-white">6</div>
+              <CardTitle>RAG 개선 아이디어</CardTitle>
+            </div>
+            <CardDescription className="ml-0 md:ml-12">
+              Part 2에서 발견한 한계를 해결할 방법을 제안하고, 하나를 직접 시도한다.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="ml-0 space-y-4 md:ml-12">
+            <div className="rounded-2xl border border-amber-500/10 bg-amber-500/5 p-4">
+              <h4 className="mb-2 text-sm font-semibold">할 일</h4>
+              <ul className="space-y-1">
+                <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">한계를 해결할 방법 3가지 이상 제안</li>
+                <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">각 방법의 예상 효과와 구현 복잡도를 표로 정리</li>
+                <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">Advanced RAG 기법 (쿼리 확장, Reranking, HyDE) 중 1개 직접 시도</li>
+              </ul>
+              <p className="mt-3 text-sm font-medium text-amber-700 dark:text-amber-400">산출물: 한계 분석 + 개선 시도 보고서 (500자+)</p>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
       <Separator className="opacity-50" />
@@ -470,6 +493,10 @@ export default function PreAssignmentPage() {
           같은 데이터에 Microsoft GraphRAG를 돌린다 (팀 1회 공동 실행, 결과
           공유).
         </p>
+
+        <div className="mb-6 overflow-hidden rounded-xl border border-border">
+          <img src="/diagrams/graphrag-compare.png" alt="GraphRAG vs Basic RAG" className="w-full" />
+        </div>
 
         <div className="space-y-4">
           <Card className="shadow-[0_22px_70px_-34px_rgba(34,27,20,0.08)] backdrop-blur-sm">
@@ -516,6 +543,33 @@ export default function PreAssignmentPage() {
             <ExternalLink className="h-3 w-3" />
           </Link>
         </div>
+
+        <Card className="mt-6 shadow-[0_22px_70px_-34px_rgba(34,27,20,0.08)] backdrop-blur-sm">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-purple-500 text-sm font-bold text-white">8</div>
+              <CardTitle>ATHENA를 위한 RAG 아키텍처 설계</CardTitle>
+            </div>
+            <CardDescription className="ml-0 md:ml-12">
+              ATHENA 프로젝트의 요구사항에 맞는 RAG 아키텍처를 설계한다.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="ml-0 space-y-4 md:ml-12">
+            <div className="rounded-2xl border border-purple-500/10 bg-purple-500/5 p-4">
+              <h4 className="mb-2 text-sm font-semibold">할 일</h4>
+              <ul className="space-y-1">
+                <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">ATHENA 핵심 요구사항 정리 (의사결정 근거 검색, 인과 사슬 응답)</li>
+                <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">기본 RAG / Advanced RAG / GraphRAG 중 적합한 접근법 판단 + 근거</li>
+                <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">간단한 아키텍처 다이어그램 작성</li>
+              </ul>
+              <p className="mt-3 text-sm font-medium text-purple-700 dark:text-purple-400">산출물: 아키텍처 설계 문서 + 다이어그램</p>
+            </div>
+            <div className="overflow-hidden rounded-xl border border-border">
+              <img src="/diagrams/athena-v2.png" alt="ATHENA v2 Architecture" className="w-full" />
+              <p className="bg-muted/50 px-4 py-2 text-xs text-muted-foreground">참고: ATHENA v2 목표 아키텍처 (LangGraph StateGraph)</p>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
       <Separator className="opacity-50" />
@@ -536,6 +590,47 @@ export default function PreAssignmentPage() {
             />
           </div>
         </div>
+      </section>
+
+      <Separator className="opacity-50" />
+
+      <Separator className="opacity-50" />
+
+      {/* Part 4: Self-Reflection */}
+      <section id="part-4">
+        <div className="mb-1 flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+            <PenLine className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+          </div>
+          <h2 className="text-2xl font-bold tracking-tight">Part 4: 자기 성찰</h2>
+        </div>
+        <p className="mb-6 text-muted-foreground">전체 과정을 돌아보고 배운 것을 정리한다.</p>
+
+        <Card className="shadow-[0_22px_70px_-34px_rgba(34,27,20,0.08)] backdrop-blur-sm">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-emerald-500 text-sm font-bold text-white">9</div>
+              <CardTitle>전체 회고</CardTitle>
+            </div>
+            <CardDescription className="ml-0 md:ml-12">
+              이 과제에서의 경험을 구체적 예시와 함께 돌아본다. (500자 이상)
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="ml-0 space-y-4 md:ml-12">
+            <div className="rounded-2xl border border-emerald-500/10 bg-emerald-500/5 p-4">
+              <h4 className="mb-2 text-sm font-semibold">필수 항목</h4>
+              <ul className="space-y-1">
+                <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">가장 어려웠던 점과 해결 과정</li>
+                <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">가장 큰 깨달음 (구체적 예시와 함께)</li>
+                <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">다시 한다면 뭘 다르게 할 것인가</li>
+                <li className="text-sm text-muted-foreground before:mr-2 before:content-['•']">ATHENA 프로젝트에서 내가 기여할 수 있는 부분</li>
+              </ul>
+              <p className="mt-3 text-sm font-medium text-emerald-700 dark:text-emerald-400">
+                &ldquo;잘했다/어려웠다&rdquo;가 아니라 구체적 사고 과정을 기술할 것
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
       <Separator className="opacity-50" />
