@@ -227,12 +227,11 @@ export default function HomePage() {
           데이터 → 지식 파이프라인
         </h2>
         <Link href="/architecture" className="group block">
-          <div className="overflow-hidden rounded-2xl border border-white/5 p-8 transition-all duration-300 hover:border-white/10" style={{ background: "#08080a" }}>
+          <div className="relative">
             {/* 수평 연결 라인 */}
-            <div className="relative">
-              <div className="absolute left-0 right-0 top-[28px] z-0 mx-16">
-                <div className="h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
-              </div>
+            <div className="absolute left-0 right-0 top-[28px] z-0 mx-16 hidden md:block">
+              <div className="h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
+            </div>
 
               {/* 데스크톱: 수평 4단계 */}
               <div className="relative z-10 hidden grid-cols-4 gap-4 md:grid">
@@ -258,7 +257,7 @@ export default function HomePage() {
                       >
                         <div className="mb-2 mx-auto h-1 w-10 rounded-full" style={{ background: `linear-gradient(90deg, ${color}, transparent)`, opacity: 0.6 }} />
                         <h3 className="text-xs font-bold" style={{ color }}>{step.label}</h3>
-                        <p className="mt-1 text-[0.6rem] leading-relaxed text-white/40">{step.description}</p>
+                        <p className="mt-1 text-[0.6rem] leading-relaxed text-muted-foreground">{step.description}</p>
                         <div className="mt-2 flex flex-wrap justify-center gap-1">
                           {step.tech.map((t) => (
                             <span key={t} className="rounded-md px-1.5 py-0.5 text-[0.5rem] font-medium" style={{ backgroundColor: `${color}12`, color: `${color}aa`, border: `1px solid ${color}15` }}>
@@ -285,11 +284,11 @@ export default function HomePage() {
                         </div>
                         <div>
                           <span className="text-xs font-bold" style={{ color }}>{step.label}</span>
-                          <span className="ml-2 text-[0.6rem] text-white/35">{step.tech.join(" · ")}</span>
+                          <span className="ml-2 text-[0.6rem] text-muted-foreground/70">{step.tech.join(" · ")}</span>
                         </div>
                       </div>
                       {i < pipelineSteps.length - 1 && (
-                        <div className="flex justify-center py-1"><span className="text-[0.6rem] text-white/15">↓</span></div>
+                        <div className="flex justify-center py-1"><span className="text-[0.6rem] text-muted-foreground/30">↓</span></div>
                       )}
                     </div>
                   );
@@ -298,13 +297,12 @@ export default function HomePage() {
             </div>
 
             {/* 흐름 라벨 */}
-            <div className="mt-6 flex items-center justify-center gap-2 text-[0.55rem] text-white/15">
+            <div className="mt-6 flex items-center justify-center gap-2 text-[0.55rem] text-muted-foreground/40">
               <span>비정형 문서</span><span>→</span><span>벡터 + 그래프</span><span>→</span><span>구조화된 지식</span><span>→</span><span>인과 사슬 응답</span>
             </div>
-            <p className="mt-3 text-center text-[0.6rem] text-white/20 transition-colors group-hover:text-primary/50">
+            <p className="mt-3 text-center text-[0.6rem] text-muted-foreground/30 transition-colors group-hover:text-primary/50">
               클릭하여 상세 아키텍처 보기 →
             </p>
-          </div>
         </Link>
       </section>
 
@@ -319,7 +317,7 @@ export default function HomePage() {
             상세 보기 →
           </Link>
         </div>
-        <div className="mt-4 overflow-hidden rounded-2xl border border-white/5 px-6 py-8" style={{ background: "#08080a" }}>
+        <div className="mt-6">
           {/* 수평 타임라인 */}
           <div className="flex items-center justify-between">
             {milestones.map((m, i) => {
@@ -344,10 +342,10 @@ export default function HomePage() {
                     </div>
                     {/* 라벨 */}
                     <div className="text-center">
-                      <div className="text-[0.65rem] font-semibold" style={{ color: isActive || isCompleted ? color : "rgba(255,255,255,0.4)" }}>
+                      <div className={`text-[0.65rem] font-semibold ${!(isActive || isCompleted) ? "text-muted-foreground" : ""}`} style={{ color: isActive || isCompleted ? color : undefined }}>
                         {m.label}
                       </div>
-                      <div className="text-[0.5rem] text-white/25">{m.period}</div>
+                      <div className="text-[0.5rem] text-muted-foreground/50">{m.period}</div>
                       {isActive && (
                         <div className="mt-1 rounded-full px-2 py-0.5 text-[0.5rem] font-semibold" style={{ backgroundColor: `${color}20`, color }}>
                           진행 중
