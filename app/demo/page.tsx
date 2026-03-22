@@ -18,7 +18,8 @@ function TypingText({ text, onComplete, skip }: { text: string; onComplete: () =
     }
     indexRef.current = 0;
     setDisplayed("");
-    const charsPerTick = Math.max(1, Math.ceil(text.length / 100));
+    const duration = text.length < 100 ? 1000 : 2000; // 짧은 텍스트 1초, 긴 텍스트 2초
+    const charsPerTick = Math.max(1, Math.ceil(text.length / (duration / 30)));
     const timer = setInterval(() => {
       indexRef.current += charsPerTick;
       if (indexRef.current >= text.length) {
@@ -173,23 +174,30 @@ export default function DemoPage() {
             </div>
           ) : (
             /* Initial state: guide */
-            <div className="flex h-full min-h-[400px] items-center justify-center">
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-[var(--forge-border-subtle)] bg-[var(--forge-surface)]">
-                  <Zap className="h-7 w-7 text-primary/40" />
+            <div className="flex h-full min-h-[400px] flex-col items-center justify-center gap-6">
+              {/* 비교 프리뷰 카드 */}
+              <div className="grid w-full max-w-md grid-cols-2 gap-3">
+                <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4 text-center">
+                  <div className="text-sm font-bold text-blue-400">기본 RAG</div>
+                  <p className="mt-2 text-[0.65rem] leading-relaxed text-blue-400/50">
+                    빠르고 간결하지만<br />인과 추론에 약함
+                  </p>
                 </div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  왼쪽에서 질문을 선택하면
-                </p>
-                <p className="text-sm font-medium text-muted-foreground">
-                  RAG와 GraphRAG의 답변을 비교합니다
-                </p>
-                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-center">
+                  <div className="text-sm font-bold text-amber-400">GraphRAG</div>
+                  <p className="mt-2 text-[0.65rem] leading-relaxed text-amber-400/50">
+                    다단계 추론으로<br />&lsquo;왜?&rsquo;에 답할 수 있음
+                  </p>
+                </div>
+              </div>
+              <div className="text-center">
+                <p className="text-xs text-muted-foreground">← 왼쪽에서 질문을 선택하면 비교가 시작됩니다</p>
+                <div className="mt-3 flex flex-wrap justify-center gap-1.5">
                   {categoryOrder.map((catKey) => {
                     const cat = categoryDescriptions[catKey];
                     return (
-                      <span key={catKey} className="rounded-full border border-[var(--forge-border-subtle)] px-2.5 py-1 text-[0.6rem] text-muted-foreground">
-                        {cat.label} {cat.ragCapability.split(" ")[0]}
+                      <span key={catKey} className="rounded-full border border-white/8 bg-white/[0.02] px-2.5 py-1 text-[0.55rem] text-muted-foreground">
+                        {cat.label}
                       </span>
                     );
                   })}

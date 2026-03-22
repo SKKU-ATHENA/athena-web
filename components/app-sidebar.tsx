@@ -167,6 +167,22 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
+        {/* 학습 진행도 */}
+        <div className="px-3 py-2">
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="text-[0.6rem] font-semibold uppercase tracking-wider text-muted-foreground">학습 진행도</span>
+            <span className="text-[0.6rem] text-muted-foreground">
+              {Object.keys(progress).length}/{studyMaterials.length}
+            </span>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+            <div
+              className="h-full rounded-full bg-primary transition-all duration-500"
+              style={{ width: `${(Object.keys(progress).length / studyMaterials.length) * 100}%` }}
+            />
+          </div>
+        </div>
+        <SidebarSeparator className="bg-[var(--forge-border-subtle)]" />
         <div className="px-3 py-2 font-mono text-[0.6rem] uppercase tracking-[0.06em] text-muted-foreground/70">
           ATHENA &copy; 2026
         </div>

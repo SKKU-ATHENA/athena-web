@@ -30,6 +30,25 @@ export default async function StudyPage({
 
   return (
     <div className="mx-auto max-w-3xl pb-16">
+      {/* 학습 진행도 바 */}
+      <div className="mb-6 animate-fade-up">
+        <div className="mb-2 flex items-center justify-between text-[0.65rem] text-muted-foreground">
+          <span>{currentIndex + 1} / {studyMaterials.length}</span>
+          <div className="flex gap-1">
+            {studyMaterials.map((m, idx) => (
+              <Link
+                key={m.slug}
+                href={`/study/${m.slug}`}
+                className={`h-1.5 rounded-full transition-all ${
+                  idx === currentIndex ? "w-6 bg-primary" : idx < currentIndex ? "w-3 bg-primary/40" : "w-3 bg-muted"
+                }`}
+                title={m.title}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="animate-fade-up">
         {current && (
