@@ -311,8 +311,44 @@ export default function PreAssignmentPage() {
           가이드 Notebook을 따라가며 파이프라인을 조립한다.
         </p>
 
-        <div className="my-6 overflow-hidden rounded-xl border border-border">
-          <img src="/athena-web/diagrams/rag-pipeline.png" alt="RAG Pipeline Architecture" className="w-full" />
+        {/* RAG 파이프라인 다이어그램 (한글) */}
+        <div className="my-6 overflow-hidden rounded-xl border border-border bg-[var(--forge-surface)] p-6">
+          <div className="mb-4 text-xs font-semibold text-muted-foreground">전체 사전과제 흐름</div>
+          <div className="space-y-4">
+            <div>
+              <div className="mb-2 text-[0.65rem] font-semibold text-muted-foreground">인덱싱 파이프라인</div>
+              <div className="flex flex-wrap items-center gap-2">
+                {["Q1 청킹", "Q2 임베딩", "Q3 벡터 저장"].map((s, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="rounded-lg bg-primary/15 px-3 py-2 text-xs font-semibold text-primary">{s}</div>
+                    {i < 2 && <span className="text-muted-foreground">→</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="mb-2 text-[0.65rem] font-semibold text-muted-foreground">질의 파이프라인</div>
+              <div className="flex flex-wrap items-center gap-2">
+                {["질문", "Q4 검색 (Top-k)", "Q5 생성 (LLM+컨텍스트)", "답변"].map((s, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className={`rounded-lg px-3 py-2 text-xs font-semibold ${i === 0 || i === 3 ? "border border-border text-foreground" : "bg-primary/15 text-primary"}`}>{s}</div>
+                    {i < 3 && <span className="text-muted-foreground">→</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="mb-2 text-[0.65rem] font-semibold text-muted-foreground">평가</div>
+              <div className="flex flex-wrap items-center gap-2">
+                {["Q6 한계 분석", "Q7 고급 RAG", "Q8 GraphRAG 비교", "Q9 아키텍처 설계"].map((s, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="rounded-lg bg-red-500/10 px-3 py-2 text-xs font-semibold text-red-400">{s}</div>
+                    {i < 3 && <span className="text-muted-foreground">→</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-6">
@@ -494,8 +530,30 @@ export default function PreAssignmentPage() {
           공유).
         </p>
 
-        <div className="mb-6 overflow-hidden rounded-xl border border-border">
-          <img src="/athena-web/diagrams/graphrag-compare.png" alt="GraphRAG vs Basic RAG" className="w-full" />
+        {/* GraphRAG vs RAG 비교 다이어그램 (한글) */}
+        <div className="mb-6 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
+            <h4 className="mb-3 text-sm font-bold text-amber-400">GraphRAG</h4>
+            <div className="space-y-2">
+              {["문서 입력", "청킹", "엔티티 + 관계 추출", "Knowledge Graph 구축", "커뮤니티 탐지 (Leiden)", "커뮤니티 요약 생성", "로컬/글로벌 검색", "답변 생성"].map((s, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-[0.55rem] font-bold text-amber-400">{i + 1}</span>
+                  <span className="text-xs text-muted-foreground">{s}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
+            <h4 className="mb-3 text-sm font-bold text-blue-400">기본 RAG</h4>
+            <div className="space-y-2">
+              {["문서 입력", "청킹", "임베딩", "벡터 저장소", "벡터 검색 (Top-k)", "LLM 답변 생성"].map((s, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-[0.55rem] font-bold text-blue-400">{i + 1}</span>
+                  <span className="text-xs text-muted-foreground">{s}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -565,7 +623,36 @@ export default function PreAssignmentPage() {
               <p className="mt-3 text-sm font-medium text-purple-700 dark:text-purple-400">산출물: 아키텍처 설계 문서 + 다이어그램</p>
             </div>
             <div className="overflow-hidden rounded-xl border border-border">
-              <img src="/athena-web/diagrams/athena-v2.png" alt="ATHENA v2 Architecture" className="w-full" />
+              {/* ATHENA v2 아키텍처 다이어그램 (한글) */}
+              <div className="rounded-xl border border-border bg-[var(--forge-surface)] p-4">
+                <div className="mb-3 text-xs font-semibold text-muted-foreground">ATHENA v2 질의 흐름</div>
+                <div className="space-y-3">
+                  <div className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-center text-xs font-semibold text-primary">사용자 질문</div>
+                  <div className="text-center text-muted-foreground">↓</div>
+                  <div className="rounded-lg bg-primary/10 px-3 py-2 text-center text-xs font-semibold">질문 분류</div>
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div className="rounded-lg border border-[var(--forge-border-subtle)] bg-[var(--forge-surface-raised)] px-2 py-2 text-[0.6rem]">
+                      <div className="font-semibold">인과 검색</div>
+                      <div className="text-muted-foreground">그래프 탐색</div>
+                    </div>
+                    <div className="rounded-lg border border-[var(--forge-border-subtle)] bg-[var(--forge-surface-raised)] px-2 py-2 text-[0.6rem]">
+                      <div className="font-semibold">사실 검색</div>
+                      <div className="text-muted-foreground">벡터 + BM25</div>
+                    </div>
+                    <div className="rounded-lg border border-[var(--forge-border-subtle)] bg-[var(--forge-surface-raised)] px-2 py-2 text-[0.6rem]">
+                      <div className="font-semibold">전체 요약</div>
+                      <div className="text-muted-foreground">커뮤니티 요약</div>
+                    </div>
+                  </div>
+                  <div className="text-center text-muted-foreground">↓</div>
+                  <div className="rounded-lg bg-primary/10 px-3 py-2 text-center text-xs font-semibold">컨텍스트 합성 → LLM 답변 생성</div>
+                  <div className="text-center text-muted-foreground">↓</div>
+                  <div className="grid grid-cols-2 gap-2 text-center">
+                    <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2 py-2 text-[0.6rem] text-emerald-400">✓ 출처 포함 최종 답변</div>
+                    <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 px-2 py-2 text-[0.6rem] text-amber-400">↻ 검색 확장 재시도</div>
+                  </div>
+                </div>
+              </div>
               <p className="bg-muted/50 px-4 py-2 text-xs text-muted-foreground">참고: ATHENA v2 목표 아키텍처 (LangGraph StateGraph)</p>
             </div>
           </CardContent>

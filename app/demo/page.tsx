@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Zap, SkipForward, ChevronDown } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Zap, SkipForward } from "lucide-react";
 import { demoQuestions, categoryDescriptions, type DemoQuestion } from "@/lib/data/demo-comparisons";
 
 function TypingText({ text, onComplete, skip }: { text: string; onComplete: () => void; skip: boolean }) {
@@ -36,36 +36,34 @@ function TypingText({ text, onComplete, skip }: { text: string; onComplete: () =
 }
 
 function VerdictBadge({ verdict, label }: { verdict: string; label: string }) {
-  const colors = {
+  const colors: Record<string, string> = {
     success: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
     partial: "bg-amber-500/10 text-amber-400 border-amber-500/20",
     fail: "bg-red-500/10 text-red-400 border-red-500/20",
   };
   return (
-    <span className={`inline-block rounded-lg border px-2.5 py-1 text-xs font-medium ${colors[verdict as keyof typeof colors] || colors.fail}`}>
+    <span className={`inline-block rounded-lg border px-2.5 py-1 text-xs font-medium ${colors[verdict] || colors.fail}`}>
       {label}
     </span>
   );
 }
+
+const categoryOrder = ["fact", "simple", "comparison", "causal", "summary"] as const;
 
 export default function DemoPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [skipTyping, setSkipTyping] = useState(false);
   const [ragDone, setRagDone] = useState(false);
   const [graphragDone, setGraphragDone] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const selectedQuestion = demoQuestions.find((q) => q.id === selectedId);
 
-  function handleSelect(id: string) {
+  const handleSelect = useCallback((id: string) => {
     setSelectedId(id);
     setSkipTyping(false);
     setRagDone(false);
     setGraphragDone(false);
-    setDropdownOpen(false);
-  }
-
-  const categories = Object.entries(categoryDescriptions);
+  }, []);
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 pb-16">
@@ -83,138 +81,129 @@ export default function DemoPage() {
         </p>
       </div>
 
-      {/* Question Selector */}
-      <div className="animate-fade-up" style={{ animationDelay: "0.08s" }}>
-        <div className="relative">
-          <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex w-full items-center justify-between rounded-xl border border-[var(--forge-border)] bg-[var(--forge-surface)] px-4 py-3 text-left text-sm transition-colors hover:border-primary/50"
-          >
-            <span className={selectedQuestion ? "text-foreground" : "text-muted-foreground"}>
-              {selectedQuestion ? selectedQuestion.question : "질문을 선택하세요..."}
-            </span>
-            <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
-          </button>
+      <div className="animate-fade-up grid gap-8 lg:grid-cols-[280px_1fr]" style={{ animationDelay: "0.08s" }}>
+        {/* Left: Question List */}
+        <div className="space-y-4">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">질문 선택</h2>
+          {categoryOrder.map((catKey) => {
+            const cat = categoryDescriptions[catKey];
+            const questions = demoQuestions.filter((q) => q.category === catKey);
+            if (questions.length === 0) return null;
+            return (
+              <div key={catKey}>
+                <div className="mb-1.5 flex items-center gap-2">
+                  <span className="text-xs font-semibold">{cat.label}</span>
+                  <span className="text-[0.6rem] text-muted-foreground">{cat.ragCapability}</span>
+                </div>
+                <div className="space-y-1">
+                  {questions.map((q) => (
+                    <button
+                      key={q.id}
+                      onClick={() => handleSelect(q.id)}
+                      className={`w-full rounded-lg px-3 py-2 text-left text-xs leading-relaxed transition-all duration-150 ${
+                        selectedId === q.id
+                          ? "border border-primary/30 bg-primary/10 text-primary"
+                          : "border border-transparent text-muted-foreground hover:bg-[var(--forge-surface-raised)] hover:text-foreground"
+                      }`}
+                    >
+                      {q.question}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
 
-          {dropdownOpen && (
-            <div className="absolute left-0 right-0 top-full z-50 mt-1 max-h-80 overflow-y-auto rounded-xl border border-[var(--forge-border)] bg-[var(--forge-surface)] shadow-xl">
-              {categories.map(([key, cat]) => {
-                const questions = demoQuestions.filter((q) => q.category === key);
-                if (questions.length === 0) return null;
-                return (
-                  <div key={key}>
-                    <div className="sticky top-0 bg-[var(--forge-surface-raised)] px-4 py-2 text-xs font-semibold text-muted-foreground">
-                      {cat.label} — {cat.ragCapability}
-                    </div>
-                    {questions.map((q) => (
-                      <button
-                        key={q.id}
-                        onClick={() => handleSelect(q.id)}
-                        className={`w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-primary/5 ${
-                          selectedId === q.id ? "bg-primary/10 text-primary" : ""
-                        }`}
-                      >
-                        {q.question}
-                      </button>
-                    ))}
+        {/* Right: Comparison Result */}
+        <div className="min-h-[400px]">
+          {selectedQuestion ? (
+            <div className="space-y-4">
+              {/* Current question */}
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold">{selectedQuestion.question}</h3>
+                {(!ragDone || !graphragDone) && (
+                  <button
+                    onClick={() => setSkipTyping(true)}
+                    className="inline-flex items-center gap-1 rounded-lg border border-[var(--forge-border-subtle)] px-2.5 py-1 text-[0.65rem] text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+                  >
+                    <SkipForward className="h-3 w-3" />
+                    스킵
+                  </button>
+                )}
+              </div>
+
+              {/* Side-by-side panels (desktop) */}
+              <div className="hidden gap-4 md:grid md:grid-cols-2">
+                {/* RAG */}
+                <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-5">
+                  <div className="mb-3 flex items-center justify-between">
+                    <h3 className="text-sm font-bold text-blue-400">기본 RAG</h3>
+                    {ragDone && <VerdictBadge verdict={selectedQuestion.ragResponse.verdict} label={selectedQuestion.ragResponse.verdictLabel} />}
                   </div>
-                );
-              })}
+                  <div className="min-h-[140px] text-sm leading-[1.8] text-muted-foreground">
+                    <TypingText text={selectedQuestion.ragResponse.text} onComplete={() => setRagDone(true)} skip={skipTyping} />
+                  </div>
+                  {ragDone && <p className="mt-3 text-xs text-blue-400/70">{selectedQuestion.ragResponse.verdictDetail}</p>}
+                </div>
+
+                {/* GraphRAG */}
+                <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-5">
+                  <div className="mb-3 flex items-center justify-between">
+                    <h3 className="text-sm font-bold text-amber-400">GraphRAG</h3>
+                    {graphragDone && <VerdictBadge verdict={selectedQuestion.graphragResponse.verdict} label={selectedQuestion.graphragResponse.verdictLabel} />}
+                  </div>
+                  <div className="min-h-[140px] text-sm leading-[1.8] text-muted-foreground">
+                    <TypingText text={selectedQuestion.graphragResponse.text} onComplete={() => setGraphragDone(true)} skip={skipTyping} />
+                  </div>
+                  {graphragDone && <p className="mt-3 text-xs text-amber-400/70">{selectedQuestion.graphragResponse.verdictDetail}</p>}
+                </div>
+              </div>
+
+              {/* Mobile: Tab view */}
+              <MobileTabView question={selectedQuestion} />
+
+              {/* Key Difference */}
+              {ragDone && graphragDone && (
+                <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+                  <h4 className="mb-1 text-xs font-semibold text-primary">핵심 차이</h4>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{selectedQuestion.keyDifference}</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            /* Initial state: guide */
+            <div className="flex h-full min-h-[400px] items-center justify-center">
+              <div className="text-center">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-[var(--forge-border-subtle)] bg-[var(--forge-surface)]">
+                  <Zap className="h-7 w-7 text-primary/40" />
+                </div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  왼쪽에서 질문을 선택하면
+                </p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  RAG와 GraphRAG의 답변을 비교합니다
+                </p>
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                  {categoryOrder.map((catKey) => {
+                    const cat = categoryDescriptions[catKey];
+                    return (
+                      <span key={catKey} className="rounded-full border border-[var(--forge-border-subtle)] px-2.5 py-1 text-[0.6rem] text-muted-foreground">
+                        {cat.label} {cat.ragCapability.split(" ")[0]}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           )}
         </div>
       </div>
-
-      {/* Comparison Area */}
-      {selectedQuestion ? (
-        <div className="animate-fade-up space-y-4" style={{ animationDelay: "0.12s" }}>
-          {/* Skip button */}
-          {(!ragDone || !graphragDone) && (
-            <div className="text-center">
-              <button
-                onClick={() => setSkipTyping(true)}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--forge-border-subtle)] px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
-              >
-                <SkipForward className="h-3 w-3" />
-                스킵
-              </button>
-            </div>
-          )}
-
-          {/* Side-by-side panels (desktop) / Tabs (mobile) */}
-          <div className="hidden gap-4 md:grid md:grid-cols-2">
-            {/* RAG Panel */}
-            <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-5">
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="text-sm font-bold text-blue-400">기본 RAG</h3>
-                {ragDone && <VerdictBadge verdict={selectedQuestion.ragResponse.verdict} label={selectedQuestion.ragResponse.verdictLabel} />}
-              </div>
-              <div className="min-h-[120px] text-sm leading-relaxed text-muted-foreground">
-                <TypingText
-                  text={selectedQuestion.ragResponse.text}
-                  onComplete={() => setRagDone(true)}
-                  skip={skipTyping}
-                />
-              </div>
-              {ragDone && (
-                <p className="mt-3 text-xs text-blue-400/70">{selectedQuestion.ragResponse.verdictDetail}</p>
-              )}
-            </div>
-
-            {/* GraphRAG Panel */}
-            <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-5">
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="text-sm font-bold text-amber-400">GraphRAG</h3>
-                {graphragDone && <VerdictBadge verdict={selectedQuestion.graphragResponse.verdict} label={selectedQuestion.graphragResponse.verdictLabel} />}
-              </div>
-              <div className="min-h-[120px] text-sm leading-relaxed text-muted-foreground">
-                <TypingText
-                  text={selectedQuestion.graphragResponse.text}
-                  onComplete={() => setGraphragDone(true)}
-                  skip={skipTyping}
-                />
-              </div>
-              {graphragDone && (
-                <p className="mt-3 text-xs text-amber-400/70">{selectedQuestion.graphragResponse.verdictDetail}</p>
-              )}
-            </div>
-          </div>
-
-          {/* Mobile: Tab view */}
-          <MobileTabView question={selectedQuestion} skipTyping={skipTyping} />
-
-          {/* Key Difference */}
-          {ragDone && graphragDone && (
-            <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
-              <h4 className="mb-1 text-xs font-semibold text-primary">핵심 차이</h4>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {selectedQuestion.keyDifference}
-              </p>
-            </div>
-          )}
-        </div>
-      ) : (
-        /* Initial state: category cards */
-        <div className="animate-fade-up grid gap-3 sm:grid-cols-2" style={{ animationDelay: "0.12s" }}>
-          {categories.map(([key, cat]) => (
-            <div
-              key={key}
-              className="rounded-xl border border-[var(--forge-border-subtle)] bg-[var(--forge-surface)] p-4"
-            >
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold">{cat.label}</span>
-                <span className="text-xs text-muted-foreground">{cat.ragCapability}</span>
-              </div>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{cat.description}</p>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
 
-function MobileTabView({ question, skipTyping }: { question: DemoQuestion; skipTyping: boolean }) {
+function MobileTabView({ question }: { question: DemoQuestion }) {
   const [activeTab, setActiveTab] = useState<"rag" | "graphrag">("rag");
 
   return (
@@ -244,9 +233,7 @@ function MobileTabView({ question, skipTyping }: { question: DemoQuestion; skipT
             <h3 className="text-sm font-bold text-blue-400">기본 RAG</h3>
             <VerdictBadge verdict={question.ragResponse.verdict} label={question.ragResponse.verdictLabel} />
           </div>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            {skipTyping ? question.ragResponse.text : question.ragResponse.text}
-          </p>
+          <p className="text-sm leading-relaxed text-muted-foreground">{question.ragResponse.text}</p>
           <p className="mt-2 text-xs text-blue-400/70">{question.ragResponse.verdictDetail}</p>
         </div>
       ) : (
@@ -255,9 +242,7 @@ function MobileTabView({ question, skipTyping }: { question: DemoQuestion; skipT
             <h3 className="text-sm font-bold text-amber-400">GraphRAG</h3>
             <VerdictBadge verdict={question.graphragResponse.verdict} label={question.graphragResponse.verdictLabel} />
           </div>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            {skipTyping ? question.graphragResponse.text : question.graphragResponse.text}
-          </p>
+          <p className="text-sm leading-relaxed text-muted-foreground">{question.graphragResponse.text}</p>
           <p className="mt-2 text-xs text-amber-400/70">{question.graphragResponse.verdictDetail}</p>
         </div>
       )}

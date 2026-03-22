@@ -12,14 +12,14 @@ export const milestones: Milestone[] = [
     label: "M0",
     period: "~3월",
     goals: ["인프라 세팅", "팀 온보딩"],
-    status: "completed",
+    status: "in-progress",
   },
   {
     id: "m1",
     label: "M1",
     period: "4월",
     goals: ["PROTOv1 개선", "v2 핵심 파이프라인"],
-    status: "in-progress",
+    status: "upcoming",
   },
   {
     id: "m2",
