@@ -7,28 +7,30 @@ import { demoQuestions, categoryDescriptions, type DemoQuestion } from "@/lib/da
 function TypingText({ text, onComplete, skip }: { text: string; onComplete: () => void; skip: boolean }) {
   const [displayed, setDisplayed] = useState("");
   const indexRef = useRef(0);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   useEffect(() => {
     if (skip) {
       setDisplayed(text);
-      onComplete();
+      onCompleteRef.current();
       return;
     }
     indexRef.current = 0;
     setDisplayed("");
-    const charsPerTick = Math.max(1, Math.ceil(text.length / 100)); // finish in ~5 seconds at 20ms/tick
+    const charsPerTick = Math.max(1, Math.ceil(text.length / 100));
     const timer = setInterval(() => {
       indexRef.current += charsPerTick;
       if (indexRef.current >= text.length) {
         setDisplayed(text);
         clearInterval(timer);
-        onComplete();
+        onCompleteRef.current();
       } else {
         setDisplayed(text.slice(0, indexRef.current));
       }
     }, 50);
     return () => clearInterval(timer);
-  }, [text, skip, onComplete]);
+  }, [text, skip]);
 
   return <span style={{ whiteSpace: "pre-wrap" }}>{displayed}</span>;
 }
@@ -157,11 +159,6 @@ export default function DemoPage() {
               {ragDone && (
                 <p className="mt-3 text-xs text-blue-400/70">{selectedQuestion.ragResponse.verdictDetail}</p>
               )}
-            </div>
-
-            {/* vs Divider (vertical) */}
-            <div className="absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 md:hidden">
-              <span className="rounded-full border border-primary/30 bg-background px-2 py-1 text-xs font-bold text-primary">vs</span>
             </div>
 
             {/* GraphRAG Panel */}
