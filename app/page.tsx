@@ -8,8 +8,8 @@ import {
   BookOpen,
   Users,
 } from "lucide-react";
-import { MilestoneTracker } from "@/components/milestone-tracker";
 import { pipelineSteps } from "@/lib/data/tech-stack";
+import { milestones } from "@/lib/milestones";
 
 // Hero 노드 — 카테고리별 네온 색상
 const heroNodes = [
@@ -220,40 +220,95 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Section 4: 파이프라인 프리뷰 ── */}
+      {/* ── Section 4: 파이프라인 프리뷰 (네온 와이어프레임) ── */}
       <section className="animate-fade-up" style={{ animationDelay: "0.2s" }}>
         <h2 className="mb-6 flex items-center gap-3 text-xl font-bold tracking-tight">
           <span className="h-1 w-8 rounded-full bg-primary" />
           데이터 → 지식 파이프라인
         </h2>
         <Link href="/architecture" className="group block">
-          <div className="overflow-x-auto rounded-xl border border-white/5 p-6 transition-all duration-200 hover:border-white/10" style={{ background: "#08080a" }}>
-            <div className="flex items-center gap-3 min-w-[520px]">
-              {pipelineSteps.map((step, i) => (
-                <div key={step.id} className="flex items-center gap-3">
-                  <div className="flex flex-col items-center gap-1.5 rounded-lg border border-white/8 bg-white/[0.02] px-4 py-3 text-center transition-all duration-200 group-hover:border-white/12">
-                    <div className="h-1 w-8 rounded-full" style={{ backgroundColor: step.color, opacity: 0.7 }} />
-                    <span className="text-xs font-semibold text-white/80">{step.label}</span>
-                    <span className="max-w-[100px] text-[0.55rem] leading-tight text-white/35">
-                      {step.tech.join(", ")}
-                    </span>
-                  </div>
-                  {i < pipelineSteps.length - 1 && (
-                    <svg width="20" height="10" viewBox="0 0 20 10" className="shrink-0">
-                      <path d="M0 5 L14 5 M10 1.5 L14 5 L10 8.5" stroke="#f59e0b" strokeWidth="1" fill="none" opacity="0.3" />
-                    </svg>
-                  )}
-                </div>
-              ))}
+          <div className="overflow-hidden rounded-2xl border border-white/5 p-8 transition-all duration-300 hover:border-white/10" style={{ background: "#08080a" }}>
+            {/* 수평 연결 라인 */}
+            <div className="relative">
+              <div className="absolute left-0 right-0 top-[28px] z-0 mx-16">
+                <div className="h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
+              </div>
+
+              {/* 데스크톱: 수평 4단계 */}
+              <div className="relative z-10 hidden grid-cols-4 gap-4 md:grid">
+                {pipelineSteps.map((step, i) => {
+                  const colors = ["#d97706", "#fbbf24", "#f59e0b", "#b45309"];
+                  const color = colors[i];
+                  return (
+                    <div key={step.id} className="flex flex-col items-center">
+                      {/* 단계 번호 */}
+                      <div
+                        className="mb-3 flex h-7 w-7 items-center justify-center rounded-full border text-[0.6rem] font-bold transition-all duration-300 group-hover:shadow-[0_0_10px_var(--glow)]"
+                        style={{ borderColor: `${color}60`, color, ["--glow" as string]: `${color}40` }}
+                      >
+                        {i + 1}
+                      </div>
+                      {/* 카드 */}
+                      <div
+                        className="w-full rounded-xl border p-4 text-center transition-all duration-300 group-hover:border-opacity-60"
+                        style={{
+                          borderColor: `${color}25`,
+                          background: `${color}04`,
+                        }}
+                      >
+                        <div className="mb-2 mx-auto h-1 w-10 rounded-full" style={{ background: `linear-gradient(90deg, ${color}, transparent)`, opacity: 0.6 }} />
+                        <h3 className="text-xs font-bold" style={{ color }}>{step.label}</h3>
+                        <p className="mt-1 text-[0.6rem] leading-relaxed text-white/40">{step.description}</p>
+                        <div className="mt-2 flex flex-wrap justify-center gap-1">
+                          {step.tech.map((t) => (
+                            <span key={t} className="rounded-md px-1.5 py-0.5 text-[0.5rem] font-medium" style={{ backgroundColor: `${color}12`, color: `${color}aa`, border: `1px solid ${color}15` }}>
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 모바일: 수직 */}
+              <div className="relative z-10 space-y-3 md:hidden">
+                {pipelineSteps.map((step, i) => {
+                  const colors = ["#d97706", "#fbbf24", "#f59e0b", "#b45309"];
+                  const color = colors[i];
+                  return (
+                    <div key={step.id}>
+                      <div className="flex items-center gap-3 rounded-xl border p-3" style={{ borderColor: `${color}20`, background: `${color}04` }}>
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-[0.6rem] font-bold" style={{ borderColor: `${color}50`, color }}>
+                          {i + 1}
+                        </div>
+                        <div>
+                          <span className="text-xs font-bold" style={{ color }}>{step.label}</span>
+                          <span className="ml-2 text-[0.6rem] text-white/35">{step.tech.join(" · ")}</span>
+                        </div>
+                      </div>
+                      {i < pipelineSteps.length - 1 && (
+                        <div className="flex justify-center py-1"><span className="text-[0.6rem] text-white/15">↓</span></div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <p className="mt-4 text-center text-[0.65rem] text-white/25">
+
+            {/* 흐름 라벨 */}
+            <div className="mt-6 flex items-center justify-center gap-2 text-[0.55rem] text-white/15">
+              <span>비정형 문서</span><span>→</span><span>벡터 + 그래프</span><span>→</span><span>구조화된 지식</span><span>→</span><span>인과 사슬 응답</span>
+            </div>
+            <p className="mt-3 text-center text-[0.6rem] text-white/20 transition-colors group-hover:text-primary/50">
               클릭하여 상세 아키텍처 보기 →
             </p>
           </div>
         </Link>
       </section>
 
-      {/* ── Section 5: 타임라인 ── */}
+      {/* ── Section 5: 타임라인 (네온 와이어프레임) ── */}
       <section className="animate-fade-up" style={{ animationDelay: "0.24s" }}>
         <div className="flex items-center justify-between">
           <h2 className="flex items-center gap-3 text-xl font-bold tracking-tight">
@@ -264,8 +319,50 @@ export default function HomePage() {
             상세 보기 →
           </Link>
         </div>
-        <div className="mt-4 rounded-xl border border-[var(--forge-border-subtle)] bg-[var(--forge-surface)] p-6">
-          <MilestoneTracker />
+        <div className="mt-4 overflow-hidden rounded-2xl border border-white/5 px-6 py-8" style={{ background: "#08080a" }}>
+          {/* 수평 타임라인 */}
+          <div className="flex items-center justify-between">
+            {milestones.map((m, i) => {
+              const colors = ["#06b6d4", "#f59e0b", "#a855f7", "#ef4444", "#22c55e"];
+              const color = colors[i];
+              const isActive = m.status === "in-progress";
+              const isCompleted = m.status === "completed";
+              return (
+                <div key={m.id} className="flex items-center">
+                  <div className="flex flex-col items-center gap-2">
+                    {/* 점 */}
+                    <div
+                      className="flex h-8 w-8 items-center justify-center rounded-full border-2 text-[0.6rem] font-bold"
+                      style={{
+                        borderColor: color,
+                        backgroundColor: isCompleted ? color : "transparent",
+                        color: isCompleted ? "white" : color,
+                        boxShadow: isActive ? `0 0 14px ${color}50` : "none",
+                      }}
+                    >
+                      {isCompleted ? "✓" : m.label}
+                    </div>
+                    {/* 라벨 */}
+                    <div className="text-center">
+                      <div className="text-[0.65rem] font-semibold" style={{ color: isActive || isCompleted ? color : "rgba(255,255,255,0.4)" }}>
+                        {m.label}
+                      </div>
+                      <div className="text-[0.5rem] text-white/25">{m.period}</div>
+                      {isActive && (
+                        <div className="mt-1 rounded-full px-2 py-0.5 text-[0.5rem] font-semibold" style={{ backgroundColor: `${color}20`, color }}>
+                          진행 중
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  {/* 연결선 */}
+                  {i < milestones.length - 1 && (
+                    <div className="mx-2 h-px flex-1 min-w-[20px]" style={{ background: `linear-gradient(90deg, ${color}30, ${colors[i + 1]}30)` }} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
     </div>
