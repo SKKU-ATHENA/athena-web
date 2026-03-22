@@ -3,10 +3,10 @@ title: "환경 세팅 가이드"
 description: "Python 3.11, uv, Jupyter, Ollama 설치 및 설정"
 sources:
   - type: github
-    label: "astral-sh/uv (40k+ stars)"
+    label: "astral-sh/uv (81k+ stars)"
     url: "https://github.com/astral-sh/uv"
   - type: github
-    label: "ollama/ollama (130k+ stars)"
+    label: "ollama/ollama (166k+ stars)"
     url: "https://github.com/ollama/ollama"
   - type: official-docs
     label: "Python 공식 문서"
@@ -19,7 +19,7 @@ ATHENA 프로젝트는 Python 3.11을 사용한다.
 
 ### Windows
 
-[python.org](https://www.python.org/downloads/release/python-3119/)에서 설치 파일을 다운로드한다. 설치 시 **"Add Python to PATH"** 체크를 반드시 할 것.
+[python.org](https://www.python.org/downloads/release/python-31115/)에서 설치 파일을 다운로드한다. 설치 시 **"Add Python to PATH"** 체크를 반드시 할 것.
 
 ```bash
 python --version
@@ -97,8 +97,8 @@ jupyter --version  # jupyter notebook 버전이 나와야 함
 # 설치 확인
 ollama --version  # ollama version 0.x.x가 나와야 함
 
-# 모델 다운로드 (추천: llama3)
-ollama pull llama3
+# 모델 다운로드 (추천: llama3.2 — 가볍고 빠름)
+ollama pull llama3.2
 ```
 
 > ⚠️ 모델 다운로드는 인터넷 속도에 따라 10~30분 소요될 수 있다.

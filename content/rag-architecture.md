@@ -3,14 +3,14 @@ title: "RAG 아키텍처 해부"
 description: "전체 RAG 파이프라인 개념도와 각 단계의 역할"
 sources:
   - type: github
-    label: "langchain-ai/langchain (100k+ stars)"
+    label: "langchain-ai/langchain (131k+ stars)"
     url: "https://github.com/langchain-ai/langchain"
   - type: paper
     label: "RAG 원본 논문 (Lewis et al., 2020)"
     url: "https://arxiv.org/abs/2005.11401"
   - type: official-docs
     label: "LangChain RAG Tutorial"
-    url: "https://python.langchain.com/docs/tutorials/rag/"
+    url: "https://python.langchain.com/docs/tutorials/rag"
 youtube:
   - "T-D1OfcDW1M"
 ---
@@ -98,6 +98,16 @@ prompt = f"""다음 자료를 참고하여 질문에 답변하세요.
 {user_question}
 """
 ```
+
+## 고급 기법 (Advanced RAG)
+
+기본 RAG의 성능을 높이기 위한 기법들이 있다:
+
+- **Reranking**: 초기 검색 결과를 Cross-Encoder 모델로 재순위 매겨 정확도를 높인다. 검색 k=20 → 리랭킹 후 상위 5개만 사용.
+- **Hybrid Search**: 벡터 검색(의미)과 키워드 검색(BM25)을 결합하여 두 방식의 장점을 취한다.
+- **Query Transformation**: 사용자 질문을 여러 변형으로 바꿔서 검색 범위를 넓힌다 (HyDE, Multi-Query 등).
+
+> 💡 이런 기법들로도 해결되지 않는 근본적 한계(인과 추론, 전체 요약)가 GraphRAG를 필요로 하는 이유다.
 
 ## RAG의 한계
 

@@ -3,7 +3,7 @@ title: "GraphRAG 개념"
 description: "Microsoft GraphRAG 아키텍처, 엔티티 추출, 커뮤니티 탐지"
 sources:
   - type: github
-    label: "microsoft/graphrag (25k+ stars)"
+    label: "microsoft/graphrag (31k+ stars)"
     url: "https://github.com/microsoft/graphrag"
   - type: paper
     label: "From Local to Global (arXiv 2024)"

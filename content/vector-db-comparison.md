@@ -3,13 +3,13 @@ title: "벡터 DB 비교"
 description: "ChromaDB, FAISS, Qdrant 등 특성과 트레이드오프"
 sources:
   - type: github
-    label: "chroma-core/chroma (16k+ stars)"
+    label: "chroma-core/chroma (26k+ stars)"
     url: "https://github.com/chroma-core/chroma"
   - type: github
-    label: "facebookresearch/faiss (32k+ stars)"
+    label: "facebookresearch/faiss (39k+ stars)"
     url: "https://github.com/facebookresearch/faiss"
   - type: github
-    label: "qdrant/qdrant (22k+ stars)"
+    label: "qdrant/qdrant (29k+ stars)"
     url: "https://github.com/qdrant/qdrant"
   - type: official-docs
     label: "ChromaDB 공식 문서"

@@ -3,7 +3,7 @@ title: "임베딩이란?"
 description: "벡터 공간, 코사인 유사도, 의미 기반 검색의 원리"
 sources:
   - type: github
-    label: "sentence-transformers (16k+ stars)"
+    label: "sentence-transformers (18k+ stars)"
     url: "https://github.com/UKPLab/sentence-transformers"
   - type: official-docs
     label: "OpenAI Embeddings Guide"
