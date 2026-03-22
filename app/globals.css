@@ -447,3 +447,11 @@
   backdrop-filter: blur(20px) saturate(1.6);
   border-bottom: 1px solid var(--forge-border-subtle);
 }
+
+/* Hero floating nodes animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-8px) translateX(4px); }
+  50% { transform: translateY(-4px) translateX(-6px); }
+  75% { transform: translateY(-12px) translateX(2px); }
+}

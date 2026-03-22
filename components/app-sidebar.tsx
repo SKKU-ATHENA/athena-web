@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   BookOpen,
   FlaskConical,
@@ -11,6 +12,11 @@ import {
   Brain,
   Network,
   Settings,
+  Zap,
+  Search,
+  LayoutDashboard,
+  Users,
+  CheckCircle2,
 } from "lucide-react";
 import {
   Sidebar,
@@ -26,6 +32,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { studyMaterials } from "@/lib/curriculum";
+import { getProgress } from "@/lib/progress";
 
 const studyIcons: Record<string, React.ElementType> = {
   "embedding-concepts": Layers,
@@ -36,8 +43,24 @@ const studyIcons: Record<string, React.ElementType> = {
   "environment-setup": Settings,
 };
 
+const mainNavItems = [
+  { href: "/pre-assignment", label: "내 손으로 만드는 RAG", icon: FlaskConical, group: "사전 과제" },
+];
+
+const showcaseItems = [
+  { href: "/demo", label: "라이브 데모", icon: Zap },
+  { href: "/explore", label: "KG 탐색기", icon: Search },
+  { href: "/architecture", label: "아키텍처", icon: LayoutDashboard },
+  { href: "/team", label: "팀 소개", icon: Users },
+];
+
 export function AppSidebar() {
   const pathname = usePathname();
+  const [progress, setProgressState] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    setProgressState(getProgress());
+  }, [pathname]);
 
   return (
     <Sidebar>
@@ -62,33 +85,62 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
+        {/* 사전 과제 */}
         <SidebarGroup>
           <SidebarGroupLabel>사전 과제</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === "/pre-assignment"}
-                >
-                  <Link href="/pre-assignment">
-                    <FlaskConical className="size-4" />
-                    <span>내 손으로 만드는 RAG</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {mainNavItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.href}
+                  >
+                    <Link href={item.href}>
+                      <item.icon className="size-4" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
         <SidebarSeparator className="bg-[var(--forge-border-subtle)]" />
 
+        {/* 프로젝트 쇼케이스 */}
+        <SidebarGroup>
+          <SidebarGroupLabel>프로젝트</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {showcaseItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.href}
+                  >
+                    <Link href={item.href}>
+                      <item.icon className="size-4" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarSeparator className="bg-[var(--forge-border-subtle)]" />
+
+        {/* 학습 자료 + 진행 추적 */}
         <SidebarGroup>
           <SidebarGroupLabel>학습 자료</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {studyMaterials.map((item) => {
                 const Icon = studyIcons[item.slug] || FileText;
+                const completed = progress[item.slug];
                 return (
                   <SidebarMenuItem key={item.slug}>
                     <SidebarMenuButton
@@ -96,8 +148,14 @@ export function AppSidebar() {
                       isActive={pathname === `/study/${item.slug}`}
                     >
                       <Link href={`/study/${item.slug}`}>
-                        <Icon className="size-4" />
-                        <span>{item.title}</span>
+                        {completed ? (
+                          <CheckCircle2 className="size-4 text-primary" />
+                        ) : (
+                          <Icon className="size-4" />
+                        )}
+                        <span className={completed ? "text-primary" : ""}>
+                          {item.title}
+                        </span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

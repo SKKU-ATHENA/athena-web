@@ -20,8 +20,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ATHENA 학습 허브",
-  description: "AI 기반 지식 관리 시스템 — 학습 자료 정리",
+  title: "ATHENA — AI 지식 관리 시스템",
+  description: "의사결정의 '왜?'에 답하는 GraphRAG 기반 AI 지식 관리 시스템. 성균관대 Co-Deep Learning 프로젝트.",
+  openGraph: {
+    title: "ATHENA — AI 지식 관리 시스템",
+    description: "의사결정 근거를 Knowledge Graph로 구조화하여 인과 사슬로 응답하는 시스템",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
