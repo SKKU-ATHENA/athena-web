@@ -11,8 +11,6 @@ sources:
   - type: official-docs
     label: "Python 공식 문서"
     url: "https://docs.python.org/3.11/"
-youtube:
-  - "hwDhO1GLb_4"
 ---
 
 ## 1. Python 3.11 설치
