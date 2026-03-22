@@ -13,6 +13,9 @@ sources:
     url: "https://docs.python.org/3.11/"
 ---
 
+> **1분 읽기** | 핵심: Python 3.11, uv, Jupyter, Ollama를 설치하면 사전 과제 준비 완료.
+> 6개 학습 자료 중 1번째. 권장 순서: 환경 세팅 → 임베딩 → 벡터 DB → RAG 아키텍처 → LLM 선택 → GraphRAG
+
 ## 1. Python 3.11 설치
 
 ATHENA 프로젝트는 Python 3.11을 사용한다.
@@ -40,6 +43,8 @@ sudo apt update && sudo apt install python3.11 python3.11-venv
 # 설치 확인
 python3.11 --version  # Python 3.11.x가 나와야 함
 ```
+
+> ⚠️ 안 나오면? Windows에서 `python3` 또는 `py -3.11`로 시도. PATH 설정을 확인하자.
 
 ## 2. uv 패키지 매니저
 
@@ -118,7 +123,7 @@ uv pip install ollama
 import ollama
 
 # 텍스트 생성
-response = ollama.chat(model="llama3", messages=[
+response = ollama.chat(model="llama3.2", messages=[
     {"role": "user", "content": "안녕하세요!"}
 ])
 print(response["message"]["content"])
