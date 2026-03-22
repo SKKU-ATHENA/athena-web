@@ -109,7 +109,7 @@ export default function TeamPage() {
           <span className="h-1 w-8 rounded-full bg-primary" />
           프로젝트 타임라인
         </h2>
-        <div className="rounded-2xl border border-white/5 p-6" style={{ background: "#08080a" }}>
+        <div>
           <div className="relative border-l-2 border-white/8 pl-8">
             {milestones.map((milestone, i) => {
               const isActive = milestone.status === "in-progress";
@@ -124,7 +124,7 @@ export default function TeamPage() {
                     className="absolute -left-[2.55rem] flex h-5 w-5 items-center justify-center rounded-full border-2"
                     style={{
                       borderColor: color,
-                      backgroundColor: isCompleted ? color : "#08080a",
+                      backgroundColor: isCompleted ? color : "var(--background)",
                       boxShadow: isActive ? `0 0 12px ${glow}` : "none",
                     }}
                   >
@@ -149,7 +149,7 @@ export default function TeamPage() {
                       <span className="text-sm font-bold" style={{ color: isActive || isCompleted ? color : "white" }}>
                         {milestone.label}
                       </span>
-                      <span className="text-xs text-white/40">{milestone.period}</span>
+                      <span className="text-xs text-muted-foreground/70">{milestone.period}</span>
                       {isActive && (
                         <span className="rounded-full px-2 py-0.5 text-[0.6rem] font-semibold"
                           style={{ backgroundColor: `${color}20`, color }}>
@@ -165,7 +165,7 @@ export default function TeamPage() {
                     </div>
                     <ul className="mt-2 space-y-1">
                       {milestone.goals.map((goal, j) => (
-                        <li key={j} className="flex items-center gap-2 text-xs text-white/50">
+                        <li key={j} className="flex items-center gap-2 text-xs text-muted-foreground">
                           <span className="h-1 w-1 shrink-0 rounded-full" style={{ backgroundColor: `${color}60` }} />
                           {goal}
                         </li>

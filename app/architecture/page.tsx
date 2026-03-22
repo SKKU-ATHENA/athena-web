@@ -35,7 +35,6 @@ export default function ArchitecturePage() {
 
         {/* Desktop: 시각적 파이프라인 */}
         <div className="hidden md:block">
-          <div className="rounded-2xl border border-white/5 p-8" style={{ background: "#08080a" }}>
             {/* SVG 커넥터 라인 */}
             <div className="relative">
               {/* 수평 연결 라인 (배경) */}
@@ -88,7 +87,7 @@ export default function ArchitecturePage() {
                           <h3 className="text-sm font-bold" style={{ color: isActive || isHovered ? color : "white" }}>
                             {step.label}
                           </h3>
-                          <p className="mt-1.5 text-[0.7rem] leading-relaxed text-white/50">
+                          <p className="mt-1.5 text-[0.7rem] leading-relaxed text-muted-foreground">
                             {step.description}
                           </p>
 
@@ -112,7 +111,7 @@ export default function ArchitecturePage() {
                           {/* 확장 영역 */}
                           {isActive && (
                             <div className="mt-3 border-t pt-3" style={{ borderColor: `${color}20` }}>
-                              <p className="text-[0.7rem] leading-relaxed text-white/40">{step.detail}</p>
+                              <p className="text-[0.7rem] leading-relaxed text-muted-foreground">{step.detail}</p>
                               {step.relatedStudy && (
                                 <Link
                                   href={`/study/${step.relatedStudy}`}
@@ -141,7 +140,7 @@ export default function ArchitecturePage() {
               </div>
 
               {/* 데이터 흐름 라벨 */}
-              <div className="mt-6 flex items-center justify-center gap-2 text-[0.6rem] text-white/20">
+              <div className="mt-6 flex items-center justify-center gap-2 text-[0.6rem] text-muted-foreground/50">
                 <span>비정형 문서</span>
                 <span>→</span>
                 <span>벡터 + 그래프</span>
@@ -151,12 +150,10 @@ export default function ArchitecturePage() {
                 <span>인과 사슬 응답</span>
               </div>
             </div>
-          </div>
         </div>
 
         {/* Mobile: 수직 네온 파이프라인 */}
         <div className="md:hidden">
-          <div className="rounded-2xl border border-white/5 p-5" style={{ background: "#08080a" }}>
             <div className="relative border-l-2 border-amber-500/15 pl-6">
               {pipelineSteps.map((step, i) => {
                 const isActive = expandedStep === step.id;
@@ -171,7 +168,7 @@ export default function ArchitecturePage() {
                       style={{
                         borderColor: color,
                         color,
-                        background: "#08080a",
+                        background: "var(--background)",
                         boxShadow: isActive ? `0 0 10px ${glow}` : "none",
                       }}
                     >
@@ -194,7 +191,7 @@ export default function ArchitecturePage() {
                           <h3 className="text-sm font-bold" style={{ color: isActive ? color : "white" }}>{step.label}</h3>
                           <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isActive ? "rotate-180" : ""}`} style={{ color: `${color}80` }} />
                         </div>
-                        <p className="mt-1 text-xs text-white/50">{step.description}</p>
+                        <p className="mt-1 text-xs text-muted-foreground">{step.description}</p>
 
                         <div className="mt-2 flex flex-wrap gap-1">
                           {step.tech.map((t) => (
@@ -207,7 +204,7 @@ export default function ArchitecturePage() {
 
                         {isActive && (
                           <div className="mt-3 border-t pt-3" style={{ borderColor: `${color}20` }}>
-                            <p className="text-xs leading-relaxed text-white/40">{step.detail}</p>
+                            <p className="text-xs leading-relaxed text-muted-foreground">{step.detail}</p>
                             {step.relatedStudy && (
                               <Link href={`/study/${step.relatedStudy}`} className="mt-2 inline-flex items-center gap-1 text-[0.65rem] font-medium hover:underline" style={{ color }}>
                                 학습 자료 <ExternalLink className="h-2.5 w-2.5" />
@@ -221,7 +218,6 @@ export default function ArchitecturePage() {
                 );
               })}
             </div>
-          </div>
         </div>
       </section>
 
