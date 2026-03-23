@@ -36,8 +36,8 @@ export const knowledgeGraphData: KnowledgeGraphData = {
     { id: "pipeline", label: "데이터 파이프라인", group: "architecture", description: "원본 문서 → 청킹 → 임베딩 → KG 구축 → GraphRAG 응답의 전체 흐름." },
 
     // Technology (기술 스택)
-    { id: "neo4j", label: "Neo4j", group: "technology", description: "그래프 데이터베이스. 노드와 관계를 네이티브로 저장하며 Cypher 쿼리로 다단계 관계 탐색 가능." },
-    { id: "python", label: "Python 3.11", group: "technology", description: "ATHENA 백엔드 언어. 풍부한 AI/ML 생태계와 Neo4j 드라이버 지원." },
+    { id: "neo4j", label: "Neo4j", group: "technology", description: "그래프 데이터베이스. 노드와 관계를 네이티브로 저장하며 Cypher 쿼리로 다단계 관계 탐색 가능.", relatedStudy: "graphrag-concepts" },
+    { id: "python", label: "Python 3.11", group: "technology", description: "ATHENA 백엔드 언어. 풍부한 AI/ML 생태계와 Neo4j 드라이버 지원.", relatedStudy: "python-dev-basics" },
     { id: "ollama", label: "Ollama", group: "technology", description: "로컬 LLM 실행 환경. 개발 중 API 비용 절감을 위해 사용.", relatedStudy: "llm-options" },
     { id: "openai", label: "OpenAI API", group: "technology", description: "GPT-4o, text-embedding-3-small 등. 프로덕션/평가 시 사용.", relatedStudy: "llm-options" },
     { id: "nextjs", label: "Next.js", group: "technology", description: "학습 웹사이트 프레임워크. 정적 생성(SSG)으로 GitHub Pages 배포." },
@@ -47,13 +47,18 @@ export const knowledgeGraphData: KnowledgeGraphData = {
 
     // Concepts (핵심 개념)
     { id: "embedding", label: "임베딩", group: "concept", description: "텍스트를 고차원 벡터로 변환하여 의미적 유사도를 계산할 수 있게 하는 기술.", relatedStudy: "embedding-concepts" },
-    { id: "chunking", label: "청킹", group: "concept", description: "긴 문서를 의미 단위로 분할하는 과정. 청크 크기가 검색 품질에 직접 영향." },
-    { id: "vector-search", label: "벡터 검색", group: "concept", description: "코사인 유사도 기반으로 쿼리와 가장 관련 있는 문서 조각을 찾는 과정." },
-    { id: "knowledge-graph", label: "Knowledge Graph", group: "concept", description: "엔티티(노드)와 관계(엣지)로 지식을 구조화한 그래프. 인과 관계와 다단계 추론 가능." },
-    { id: "community-detection", label: "커뮤니티 탐지", group: "concept", description: "그래프에서 밀접하게 연결된 노드 그룹을 자동으로 발견하는 알고리즘." },
-    { id: "entity-extraction", label: "엔티티 추출", group: "concept", description: "비정형 텍스트에서 사람, 기술, 개념 등 주요 엔티티를 자동으로 식별." },
+    { id: "chunking", label: "청킹", group: "concept", description: "긴 문서를 의미 단위로 분할하는 과정. 청크 크기가 검색 품질에 직접 영향.", relatedStudy: "rag-architecture" },
+    { id: "vector-search", label: "벡터 검색", group: "concept", description: "코사인 유사도 기반으로 쿼리와 가장 관련 있는 문서 조각을 찾는 과정.", relatedStudy: "vector-db-comparison" },
+    { id: "knowledge-graph", label: "Knowledge Graph", group: "concept", description: "엔티티(노드)와 관계(엣지)로 지식을 구조화한 그래프. 인과 관계와 다단계 추론 가능.", relatedStudy: "graphrag-concepts" },
+    { id: "community-detection", label: "커뮤니티 탐지", group: "concept", description: "그래프에서 밀접하게 연결된 노드 그룹을 자동으로 발견하는 알고리즘.", relatedStudy: "graphrag-concepts" },
+    { id: "entity-extraction", label: "엔티티 추출", group: "concept", description: "비정형 텍스트에서 사람, 기술, 개념 등 주요 엔티티를 자동으로 식별.", relatedStudy: "graphrag-concepts" },
     { id: "cosine-similarity", label: "코사인 유사도", group: "concept", description: "두 벡터 간의 각도를 측정하여 의미적 유사도를 0~1로 표현.", relatedStudy: "embedding-concepts" },
-    { id: "prompt-engineering", label: "프롬프트 엔지니어링", group: "concept", description: "LLM에 효과적인 질문을 구성하는 기법. 컨텍스트 + 지시 + 예시 조합." },
+    { id: "prompt-engineering", label: "프롬프트 엔지니어링", group: "concept", description: "LLM에 효과적인 질문을 구성하는 기법. 컨텍스트 + 지시 + 예시 조합.", relatedStudy: "rag-architecture" },
+
+    // Curriculum (커리큘럼 전용 토픽)
+    { id: "ai-ml-basics", label: "AI/ML 기초", group: "concept", description: "모델, 학습, 추론의 기본 개념. LLM이 왜 작동하는지 이해하기 위한 기반.", relatedStudy: "ai-ml-basics" },
+    { id: "nlp-basics", label: "NLP 기초", group: "concept", description: "토큰화, 텍스트 전처리 등 자연어를 컴퓨터가 처리하는 방법.", relatedStudy: "nlp-basics" },
+    { id: "transformer", label: "Transformer", group: "concept", description: "어텐션 메커니즘 기반의 딥러닝 아키텍처. GPT, BERT, LLaMA의 기반 기술.", relatedStudy: "transformer-llm" },
 
     // Decisions (의사결정)
     { id: "why-neo4j", label: "왜 Neo4j?", group: "decision", description: "의사결정 인과 사슬의 자연스러운 표현 + Cypher 쿼리 + 벡터 인덱스 내장. 대안: PostgreSQL+pgvector, ArangoDB." },
@@ -98,6 +103,12 @@ export const knowledgeGraphData: KnowledgeGraphData = {
     // 개념 연결
     { source: "embedding", target: "cosine-similarity", type: "uses", label: "유사도 측정" },
     { source: "prompt-engineering", target: "rag", type: "enables", label: "질문 구성" },
+
+    // 커리큘럼 개념 연결
+    { source: "ai-ml-basics", target: "nlp-basics", type: "enables", label: "기반 지식" },
+    { source: "nlp-basics", target: "embedding", type: "enables", label: "텍스트→벡터" },
+    { source: "transformer", target: "ollama", type: "enables", label: "모델 이해" },
+    { source: "transformer", target: "openai", type: "enables", label: "모델 이해" },
 
     // 의사결정 연결
     { source: "why-neo4j", target: "neo4j", type: "depends_on", label: "선택 근거" },

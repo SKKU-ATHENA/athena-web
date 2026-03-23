@@ -15,8 +15,8 @@ youtube:
   - "viZrOnJclY0"
 ---
 
-> **5분 읽기** | 핵심: 텍스트를 숫자 벡터로 바꾸면 의미 기반 검색이 가능해진다.
-> 6개 학습 자료 중 2번째. 권장 순서: 환경 세팅 → 임베딩 → 벡터 DB → RAG 아키텍처 → LLM 선택 → GraphRAG
+> **25분 읽기** | 핵심: 텍스트를 숫자 벡터로 바꾸면 의미 기반 검색이 가능해진다.
+> Phase 1 (AI/NLP 기초)의 3번째 모듈. 이전: [NLP 기초](/study/nlp-basics) → 다음: [Transformer & LLM](/study/transformer-llm)
 
 ## 임베딩이 뭔가?
 

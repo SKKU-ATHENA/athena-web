@@ -13,8 +13,8 @@ sources:
     url: "https://docs.python.org/3.11/"
 ---
 
-> **1분 읽기** | 핵심: Python 3.11, uv, Jupyter, Ollama를 설치하면 사전 과제 준비 완료.
-> 6개 학습 자료 중 1번째. 권장 순서: 환경 세팅 → 임베딩 → 벡터 DB → RAG 아키텍처 → LLM 선택 → GraphRAG
+> **15분 읽기** | 핵심: Python 3.11, uv, Jupyter, Ollama를 설치하면 사전 과제 준비 완료.
+> Phase 0 (개발 기초)의 1번째 모듈. 다음: [Python 실무 기초](/study/python-dev-basics) → [Git & GitHub 협업](/study/git-github)
 
 ## 1. Python 3.11 설치
 

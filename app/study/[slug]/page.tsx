@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Lightbulb } from "lucide-react";
 import { getPost, getPostSlugs } from "@/lib/posts";
 import { studyMaterials } from "@/lib/curriculum";
 import { SourceBadge } from "@/components/source-badge";
@@ -49,6 +49,30 @@ export default async function StudyPage({
         </div>
       </div>
 
+      {/* Prerequisites soft guide banner */}
+      {current?.prerequisites && current.prerequisites.length > 0 && (
+        <div className="mb-4 animate-fade-up rounded-lg border-l-2 border-primary/30 bg-muted/50 px-4 py-2.5">
+          <div className="flex items-start gap-2 text-xs text-muted-foreground">
+            <Lightbulb className="mt-0.5 size-3.5 shrink-0 text-primary/60" />
+            <span>
+              이 모듈은{" "}
+              {current.prerequisites.map((prereqSlug, i) => {
+                const prereq = studyMaterials.find((m) => m.slug === prereqSlug);
+                return (
+                  <span key={prereqSlug}>
+                    {i > 0 && ", "}
+                    <Link href={`/study/${prereqSlug}`} className="font-medium text-primary hover:underline">
+                      {prereq?.title || prereqSlug}
+                    </Link>
+                  </span>
+                );
+              })}
+              을 먼저 읽으면 더 잘 이해됩니다.
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="animate-fade-up">
         {current && (
@@ -56,9 +80,15 @@ export default async function StudyPage({
             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-primary/15 font-mono text-xs font-bold text-primary">
               {current.order}
             </span>
+            {current.phaseTitle && (
+              <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-[0.65rem] font-medium text-muted-foreground">
+                Phase {current.phase}
+              </span>
+            )}
             <span className={`rounded-full px-2 py-0.5 font-mono text-[0.65rem] font-medium ${
               current.difficulty === "입문" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" :
               current.difficulty === "심화" ? "bg-purple-500/10 text-purple-600 dark:text-purple-400" :
+              current.difficulty === "중급" ? "bg-amber-500/10 text-amber-600 dark:text-amber-400" :
               "bg-blue-500/10 text-blue-600 dark:text-blue-400"
             }`}>
               {current.difficulty}
