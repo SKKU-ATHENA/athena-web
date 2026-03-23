@@ -16,6 +16,7 @@ import {
   Search,
   LayoutDashboard,
   Users,
+  Bot,
   CheckCircle2,
 } from "lucide-react";
 import {
@@ -49,6 +50,7 @@ const mainNavItems = [
 
 const showcaseItems = [
   { href: "/demo", label: "라이브 데모", icon: Zap },
+  { href: "/prototype", label: "프로토타입 체험", icon: Bot },
   { href: "/explore", label: "KG 탐색기", icon: Search },
   { href: "/architecture", label: "아키텍처", icon: LayoutDashboard },
   { href: "/team", label: "팀 소개", icon: Users },
