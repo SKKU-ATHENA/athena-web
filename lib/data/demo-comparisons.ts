@@ -167,6 +167,6 @@ export const categoryDescriptions: Record<DemoQuestion["category"], { label: str
   fact: { label: "사실 확인", ragCapability: "✅ RAG 충분", description: "문서에서 직접 검색 가능한 단순 사실. RAG가 빠르고 정확합니다." },
   simple: { label: "단순 검색", ragCapability: "✅ RAG 충분", description: "목록이나 규정을 검색하는 질문. RAG로 충분히 대응 가능합니다." },
   comparison: { label: "비교 분석", ragCapability: "⚠️ RAG 부분적", description: "여러 시도의 차이를 비교. RAG는 결론만, GraphRAG는 과정 전체를 비교합니다." },
-  causal: { label: "인과 관계", ragCapability: "❌ RAG 실패", description: "'왜?' 질문. 시행착오의 인과 사슬을 추적해야 합니다." },
-  summary: { label: "전체 요약", ragCapability: "❌ RAG 실패", description: "여러 팀의 결과를 구조적으로 종합. 나열이 아닌 패턴 분석이 필요합니다." },
+  causal: { label: "인과 관계", ragCapability: "⚠️ 정보 분산 시 RAG 한계", description: "'왜?' 질문. 인과 사슬이 여러 문서에 분산되어 있을 때 GraphRAG가 +16.4%p 우수합니다." },
+  summary: { label: "전체 요약", ragCapability: "⚠️ 크로스-문서 시 RAG 한계", description: "여러 팀의 결과를 구조적으로 종합. 분산된 정보를 연결하는 데 Knowledge Graph가 필요합니다." },
 };
