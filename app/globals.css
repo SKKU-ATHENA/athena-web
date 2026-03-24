@@ -235,6 +235,15 @@
 
 [data-slot="sidebar-menu-button"] {
   border-left: 3px solid transparent !important;
+  min-height: auto !important;
+  height: auto !important;
+}
+
+[data-slot="sidebar-menu-button"] span {
+  white-space: normal !important;
+  line-height: 1.35 !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
 }
 
 [data-slot="sidebar-menu-button"]:hover {
@@ -271,6 +280,7 @@
 }
 
 .prose h1 {
+  font-size: 1.85rem;
   font-weight: 800;
   letter-spacing: -0.035em;
   margin-top: 2.5rem;
@@ -278,22 +288,30 @@
 }
 
 .prose h2 {
+  font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.025em;
-  margin-top: 2.25rem;
+  margin-top: 3rem;
   margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .prose h3 {
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: -0.025em;
-  margin-top: 1.75rem;
+  margin-top: 2rem;
   margin-bottom: 0.5rem;
 }
 
 .prose h4 {
+  font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.025em;
+  margin-top: 1.5rem;
+  margin-bottom: 0.35rem;
+  color: var(--primary);
 }
 
 .prose p {
@@ -336,19 +354,19 @@
   overflow-x: auto;
 }
 
-/* Table overflow wrapper — injected via JS or manual wrapping */
-.prose .table-wrapper,
-.prose > div:has(> table) {
+/* Table scroll wrapper (injected by posts.ts) */
+.prose .table-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin-block: 1rem;
+  border: 1px solid var(--border);
   border-radius: 0.75rem;
 }
 
-.prose > table {
-  display: block;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+.prose .table-scroll table {
+  border: none;
+  border-radius: 0;
+  margin: 0;
 }
 
 /* Light mode adjustments */
@@ -390,6 +408,280 @@
   width: 100%;
 }
 
+/* ═══ Markdown Visual Components ═══ */
+
+/* Flow diagram: horizontal pipeline with badges and arrows */
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+
+.flow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.flow-badge-primary {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--primary);
+}
+
+.flow-badge-muted {
+  border: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+.flow-badge-green {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.flow-badge-red {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.flow-badge-blue {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.flow-arrow {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Callout boxes */
+.callout {
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  margin-block: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.callout strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.callout-amber {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.callout-amber strong { color: var(--primary); }
+
+.callout-blue {
+  background: rgba(59, 130, 246, 0.06);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.callout-blue strong { color: #3b82f6; }
+
+.callout-green {
+  background: rgba(34, 197, 94, 0.06);
+  border: 1px solid rgba(34, 197, 94, 0.15);
+}
+
+.callout-green strong { color: #22c55e; }
+
+.callout-red {
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.callout-red strong { color: #ef4444; }
+
+/* Info card */
+.info-card {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-block: 1.25rem;
+  background: var(--forge-surface);
+}
+
+.info-card-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground);
+  margin-bottom: 0.75rem;
+}
+
+/* Step list: numbered steps with vertical timeline */
+.step-list {
+  position: relative;
+  padding-left: 2.5rem;
+  margin-block: 1.25rem;
+}
+
+.step-list::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 1.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  background: var(--border);
+}
+
+.step-item {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.step-num {
+  position: absolute;
+  left: -2.5rem;
+  top: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.step-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.step-desc {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}
+
+/* Comparison grid: side-by-side cards */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-block: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .compare-grid { grid-template-columns: 1fr; }
+}
+
+.compare-item {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.compare-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.compare-before { border-color: rgba(239, 68, 68, 0.2); }
+.compare-before .compare-label { color: #ef4444; }
+.compare-after { border-color: rgba(34, 197, 94, 0.2); }
+.compare-after .compare-label { color: #22c55e; }
+
+.compare-neutral { border-color: var(--border); }
+.compare-neutral .compare-label { color: var(--primary); }
+
+/* Diagram card: styled diagram container replacing ASCII art */
+.diagram-box {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--forge-surface);
+  padding: 1.5rem;
+  margin-block: 1.25rem;
+  overflow-x: auto;
+}
+
+.diagram-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+/* Vertical pipeline steps inside diagrams */
+.pipe-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.pipe-num {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.pipe-content {
+  flex: 1;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.pipe-content strong {
+  color: var(--foreground);
+}
+
+.pipe-arrow {
+  display: flex;
+  justify-content: center;
+  padding: 0.15rem 0;
+  color: var(--muted-foreground);
+  font-size: 0.7rem;
+  margin-left: 0.35rem;
+}
+
+/* Keyword badge (small inline tags) */
+.kw {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  background: var(--forge-glow);
+  border: 1px solid var(--forge-border);
+  color: var(--primary);
+  white-space: nowrap;
+}
+
 .prose th {
   background: var(--forge-surface-raised);
   font-size: 0.8rem;
@@ -413,6 +705,62 @@
 
 .prose tbody tr:hover {
   background: rgba(245, 158, 11, 0.04);
+}
+
+/* ─── Checkpoint (details/summary) ─── */
+
+.prose details {
+  margin-block: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.prose details summary {
+  cursor: pointer;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: var(--forge-surface-raised);
+  color: var(--foreground);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.prose details summary:hover {
+  background: var(--forge-glow);
+}
+
+.prose details summary::before {
+  content: "▶";
+  font-size: 0.65rem;
+  color: var(--primary);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.prose details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.prose details summary::-webkit-details-marker {
+  display: none;
+}
+
+.prose details > :not(summary) {
+  padding: 0.75rem 1rem;
+}
+
+.prose details > p {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--muted-foreground);
 }
 
 /* ─── Animations ─── */

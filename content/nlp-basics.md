@@ -26,12 +26,21 @@ ATHENA 시스템에서 토큰화는 세 가지 핵심 지점에 직접 영향을
 2. **API 비용 계산**: OpenAI, Anthropic 등의 API는 **토큰 단위로 과금**한다. 토큰 수를 정확히 예측하지 못하면 예산 관리가 불가능하다. ATHENA 프로젝트 월 예산이 5만원인 상황에서 이건 생존의 문제다.
 3. **임베딩 품질**: 임베딩 모델도 입력 토큰 수에 제한이 있다. 토큰 제한을 초과하면 텍스트가 잘리고, 잘린 텍스트의 임베딩은 원본의 의미를 온전히 담지 못한다.
 
-```
-사용자 문서 → [토큰화] → 토큰 수 기반 청킹 → [임베딩] → 벡터 DB 저장
-                ↑
-        이 단계를 이해해야
-        나머지가 제대로 돌아간다
-```
+<div class="flow">
+  <div class="flow-badge flow-badge-primary">사용자 문서</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-badge flow-badge-muted">토큰화 *</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-badge flow-badge-primary">토큰 수 기반 청킹</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-badge flow-badge-primary">임베딩</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-badge flow-badge-primary">벡터 DB 저장</div>
+</div>
+
+<div class="callout callout-amber">
+  <strong>* 이 단계를 이해해야 나머지가 제대로 돌아간다</strong> — 토큰화는 NLP 파이프라인의 첫 번째 관문이다.
+</div>
 
 정리하면, 토큰화는 NLP 파이프라인의 **첫 번째 관문**이다. 여기서 내리는 결정이 이후 모든 단계의 품질과 비용을 좌우한다.
 
@@ -122,11 +131,16 @@ WordPiece 예시:
 
 토큰화 알고리즘을 설계할 때 가장 중요한 결정 중 하나가 **어휘(vocabulary) 크기**다.
 
-```
-어휘 크기: 작음 ◀━━━━━━━━━━━━━━━━━━━━▶ 큼
-           256개                    200,000개
-           (바이트 수준)             (대규모 서브워드)
-```
+<div class="compare-grid">
+  <div class="compare-item compare-before">
+    <div class="compare-label">작은 어휘</div>
+    <strong>256개</strong> (바이트 수준)<br/>시퀀스 길다 / OOV 강함 / 모델 작음
+  </div>
+  <div class="compare-item compare-after">
+    <div class="compare-label">큰 어휘</div>
+    <strong>200,000개</strong> (대규모 서브워드)<br/>시퀀스 짧다 / 빠른 학습 / 비용 절감
+  </div>
+</div>
 
 | | 작은 어휘 (예: 10,000개) | 큰 어휘 (예: 100,000개) |
 |---|---|---|
@@ -156,10 +170,16 @@ GPT-4o의 어휘가 GPT-2의 4배인 이유는 다국어 지원 강화 때문이
 
 영어 모델 기반 토크나이저는 한국어를 처리할 때 토큰을 훨씬 많이 사용한다.
 
-```
-영어: "The decision was made" → 5 토큰
-한국어: "의사결정이 이루어졌다" → 9~12 토큰 (모델에 따라 다름)
-```
+<div class="compare-grid">
+  <div class="compare-item compare-after">
+    <div class="compare-label">영어</div>
+    "The decision was made" → <strong>5 토큰</strong>
+  </div>
+  <div class="compare-item compare-before">
+    <div class="compare-label">한국어</div>
+    "의사결정이 이루어졌다" → <strong>9~12 토큰</strong> (모델에 따라 다름)
+  </div>
+</div>
 
 같은 의미인데 한국어가 2배 이상의 토큰을 소모한다. API 비용 관점에서 이는 심각한 문제다.
 
@@ -167,9 +187,17 @@ GPT-4o의 어휘가 GPT-2의 4배인 이유는 다국어 지원 강화 때문이
 
 한국어는 교착어(膠着語)다. 어근에 조사/어미가 붙어서 의미가 변한다.
 
-```
-결정 → 결정이, 결정을, 결정에, 결정으로, 결정이었다, 결정했다, ...
-```
+<div class="flow">
+  <div class="flow-badge flow-badge-primary">결정</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-badge flow-badge-muted">결정이</div>
+  <div class="flow-badge flow-badge-muted">결정을</div>
+  <div class="flow-badge flow-badge-muted">결정에</div>
+  <div class="flow-badge flow-badge-muted">결정으로</div>
+  <div class="flow-badge flow-badge-muted">결정이었다</div>
+  <div class="flow-badge flow-badge-muted">결정했다</div>
+  <div class="flow-badge flow-badge-muted">...</div>
+</div>
 
 영어의 `decision`은 대부분 1토큰이지만, 한국어 "결정"의 변형은 각각 다른 토큰 조합이 될 수 있다. 형태소 분석을 통해 어근과 조사/어미를 분리하면 효율이 좋아지지만, 범용 토크나이저(BPE, WordPiece)는 이런 언어학적 지식 없이 통계적으로만 분할한다.
 
@@ -177,9 +205,9 @@ GPT-4o의 어휘가 GPT-2의 4배인 이유는 다국어 지원 강화 때문이
 
 한국어 글자는 초성+중성+종성으로 구성된다. 어휘에 없는 음절을 만나면 토크나이저가 자모 단위까지 분해할 수 있다.
 
-```
-"뷁" (드문 음절) → 바이트 단위로 3~4개 토큰으로 분해될 수 있음
-```
+<div class="callout callout-amber">
+  <strong>"뷁" (드문 음절)</strong> → 바이트 단위로 3~4개 토큰으로 분해될 수 있음
+</div>
 
 **ATHENA에 주는 영향**:
 - 한국어 문서를 청킹할 때 영어 기준 토큰 수를 그대로 적용하면 안 된다
@@ -404,18 +432,48 @@ print(f"gpt-4o-mini 최대 입력 토큰: {max_input_tokens:,.0f}")
 print(f"한국어 기준 최대 처리 글자 수: {max_korean_chars:,.0f}")
 ```
 
-핵심 교훈: **개발 중에는 Ollama 로컬 모델을 쓰고**, API는 평가/데모에만 사용한다. 이건 ATHENA 프로젝트의 API 비용 규칙 1번과 정확히 일치한다.
+핵심 교훈: 비용을 줄이려면 **개발 중에는 Ollama 로컬 모델을 우선 활용**하고, 클라우드 API는 평가/데모 단계에서 사용하는 전략이 유효하다. 팀 내에서 API 사용 범위는 프로젝트 진행에 따라 조정될 수 있다.
 
 ## 5. 체크포인트
 
-아래 질문에 답할 수 있으면 이 자료를 충분히 이해한 것이다.
+스스로 생각해본 뒤, 답을 펼쳐 확인하자.
 
-- [ ] 토큰이 "글자"도 "단어"도 아닌 "서브워드"인 이유를 설명할 수 있는가?
-- [ ] BPE 알고리즘의 핵심 동작(빈번한 쌍 병합)을 자기 말로 설명할 수 있는가?
-- [ ] 어휘 크기가 크면 좋은 점과 나쁜 점을 각각 2가지 이상 말할 수 있는가?
-- [ ] 한국어가 영어보다 토큰 효율이 낮은 이유를 설명할 수 있는가?
-- [ ] `tiktoken`으로 임의의 텍스트의 토큰 수를 계산할 수 있는가?
-- [ ] ATHENA에서 청킹 크기를 글자 수가 아닌 토큰 수 기준으로 정해야 하는 이유를 설명할 수 있는가?
+<details>
+<summary>Q1. 토큰이 "글자"도 "단어"도 아닌 "서브워드"인 이유는?</summary>
+
+글자 단위는 시퀀스가 너무 길어지고, 단어 단위는 어휘가 폭발한다. 서브워드는 자주 쓰는 문자열을 하나로 묶고 드문 문자열은 잘게 쪼개서, 어휘 크기와 시퀀스 길이의 균형을 잡는다.
+
+</details>
+
+<details>
+<summary>Q2. BPE 알고리즘의 핵심 동작을 설명할 수 있는가?</summary>
+
+글자 단위에서 시작하여, 가장 자주 등장하는 연속 쌍(pair)을 반복적으로 병합한다. 원하는 어휘 크기에 도달할 때까지 이 과정을 반복하면, 자주 쓰이는 패턴이 하나의 토큰이 된다.
+
+</details>
+
+<details>
+<summary>Q3. 어휘 크기가 크면 좋은 점과 나쁜 점은? (각 2가지 이상)</summary>
+
+**좋은 점**: 시퀀스가 짧아져 처리 속도가 빨라진다 / 같은 텍스트에 적은 토큰 → API 비용 절감
+
+**나쁜 점**: 모델의 임베딩 테이블이 커져 모델 크기가 증가한다 / 어휘에 없는 새로운 패턴 처리가 어렵다
+
+</details>
+
+<details>
+<summary>Q4. 한국어가 영어보다 토큰 효율이 낮은 이유는?</summary>
+
+대부분의 토크나이저가 영어 중심 데이터로 학습되어, 영어 단어는 1토큰으로 처리되는 반면 한국어는 더 작은 단위로 쪼개진다. 또한 한국어는 교착어라 어근에 조사/어미가 붙어 변형이 많아, 각 변형이 별도의 토큰 조합이 된다.
+
+</details>
+
+<details>
+<summary>Q5. ATHENA에서 청킹 크기를 글자 수가 아닌 토큰 수 기준으로 정해야 하는 이유는?</summary>
+
+임베딩 모델과 LLM의 입력 제한은 **토큰 수** 기준이다. 같은 500자라도 한국어와 영어는 토큰 수가 크게 다르므로, 글자 수로 자르면 임베딩 모델의 토큰 제한을 초과하거나 예산 추정이 부정확해진다.
+
+</details>
 
 ---
 

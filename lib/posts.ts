@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
+import remarkGfm from "remark-gfm";
 import html from "remark-html";
 
 const contentDirectory = path.join(process.cwd(), "content");
@@ -49,6 +50,7 @@ export async function getPost(slug: string) {
   const { data, content } = matter(fileContents);
 
   const processedContent = await remark()
+    .use(remarkGfm)
     .use(html, { sanitize: false })
     .process(content);
 
@@ -56,7 +58,10 @@ export async function getPost(slug: string) {
   const basePath = process.env.__NEXT_ROUTER_BASEPATH || "/athena-web";
   const htmlContent = processedContent
     .toString()
-    .replace(/href="\/(study|pre-assignment)/g, `href="${basePath}/$1`);
+    .replace(/href="\/(study|pre-assignment)/g, `href="${basePath}/$1`)
+    // Wrap tables in scrollable container for overflow handling
+    .replace(/<table>/g, '<div class="table-scroll"><table>')
+    .replace(/<\/table>/g, '</table></div>');
 
   return {
     slug,

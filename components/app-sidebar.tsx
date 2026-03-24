@@ -192,8 +192,8 @@ export function AppSidebar() {
                                 ) : (
                                   <Icon className="size-4" />
                                 )}
-                                <span className={completed ? "text-primary" : ""}>
-                                  {item.title}
+                                <span className={`${completed ? "text-primary" : ""} ${item.isSupplementary ? "opacity-60" : ""}`}>
+                                  {item.isSupplementary ? `↳ ${item.title}` : item.title}
                                 </span>
                                 {item.isNew && (
                                   <Badge variant="outline" className="ml-auto h-4 border-primary/30 px-1 text-[0.5rem] text-primary">

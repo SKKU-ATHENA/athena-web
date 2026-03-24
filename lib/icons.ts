@@ -10,6 +10,8 @@ import {
   Cpu,
   MessageSquare,
   Blocks,
+  Search,
+  LayoutDashboard,
   type LucideIcon,
 } from "lucide-react";
 
@@ -25,6 +27,8 @@ const iconMap: Record<string, LucideIcon> = {
   cpu: Cpu,
   "message-square": MessageSquare,
   blocks: Blocks,
+  search: Search,
+  "layout-dashboard": LayoutDashboard,
 };
 
 export function getStudyIcon(iconName: string): LucideIcon {
