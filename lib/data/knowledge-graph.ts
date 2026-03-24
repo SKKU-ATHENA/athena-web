@@ -67,6 +67,21 @@ export const knowledgeGraphData: KnowledgeGraphData = {
     { id: "why-ollama", label: "왜 Ollama?", group: "decision", description: "개발 중 API 비용 절감 (월 5만원 예산). 로컬에서 무제한 실험 가능. 프로덕션은 OpenAI." },
     { id: "why-nextjs", label: "왜 Next.js?", group: "decision", description: "정적 생성 + GitHub Pages 무료 배포 + React 생태계 + shadcn/ui 컴포넌트." },
     { id: "rag-limitation", label: "RAG의 한계", group: "decision", description: "사실 확인은 잘하지만 비교 분석, 인과 관계, 전체 요약에서 실패. ATHENA가 GraphRAG를 선택한 근거." },
+
+    // Concepts (커리큘럼 재구성 추가)
+    { id: "rag-intro", label: "RAG 개념", group: "concept", description: "LLM의 한계를 외부 지식 검색으로 보강하는 핵심 아이디어", relatedStudy: "rag-intro" },
+    { id: "hallucination", label: "환각 (Hallucination)", group: "concept", description: "LLM이 그럴듯하지만 틀린 정보를 자신 있게 생성하는 현상", relatedStudy: "rag-intro" },
+    { id: "knowledge-cutoff", label: "지식 커트오프", group: "concept", description: "LLM이 학습 데이터 이후의 정보를 알지 못하는 한계", relatedStudy: "rag-intro" },
+    { id: "cypher", label: "Cypher 쿼리", group: "concept", description: "Neo4j의 그래프 쿼리 언어. MATCH-WHERE-RETURN 패턴으로 관계를 탐색", relatedStudy: "neo4j-kg-basics" },
+    { id: "llm", label: "LLM", group: "concept", description: "대규모 언어 모델. 다음 토큰을 예측하여 텍스트를 생성하는 딥러닝 모델", relatedStudy: "transformer-llm" },
+    { id: "attention", label: "어텐션 메커니즘", group: "concept", description: "Transformer의 핵심. 모든 위치에서 모든 위치로 직접 관계를 계산", relatedStudy: "transformer-llm" },
+
+    // Architecture (커리큘럼 재구성 추가)
+    { id: "protov1", label: "PROTOv1", group: "architecture", description: "ATHENA 초기 프로토타입. Chainlit + ChromaDB + Ollama 기반 단순 RAG", relatedStudy: "athena-architecture" },
+    { id: "v2", label: "ATHENA v2", group: "architecture", description: "GraphRAG + Neo4j 기반 차세대 아키텍처. 인과 추론과 Notion 연동", relatedStudy: "athena-architecture" },
+
+    // Technology (커리큘럼 재구성 추가)
+    { id: "langchain", label: "LangChain", group: "technology", description: "LLM 애플리케이션 프레임워크. RAG 파이프라인 구축에 활용" },
   ],
   links: [
     // RAG 파이프라인 흐름
@@ -118,5 +133,37 @@ export const knowledgeGraphData: KnowledgeGraphData = {
     { source: "why-nextjs", target: "nextjs", type: "depends_on", label: "선택 근거" },
     { source: "rag-limitation", target: "rag", type: "depends_on", label: "한계 분석" },
     { source: "rag-limitation", target: "why-graphrag", type: "enables", label: "전환 근거" },
+
+    // RAG 개념 관련
+    { source: "hallucination", target: "rag-intro", type: "enables", label: "해결 동기" },
+    { source: "knowledge-cutoff", target: "rag-intro", type: "enables", label: "해결 동기" },
+    { source: "rag-intro", target: "rag", type: "enables", label: "개념→아키텍처" },
+
+    // LLM/Transformer 관련
+    { source: "attention", target: "transformer", type: "part_of", label: "핵심 메커니즘" },
+    { source: "transformer", target: "llm", type: "enables", label: "기반 구조" },
+    { source: "llm", target: "hallucination", type: "enables", label: "부작용" },
+    { source: "llm", target: "rag", type: "enables", label: "생성 엔진" },
+
+    // Neo4j/Cypher 관련
+    { source: "cypher", target: "neo4j", type: "part_of", label: "쿼리 언어" },
+    { source: "neo4j", target: "knowledge-graph", type: "enables", label: "그래프 저장" },
+
+    // ATHENA 아키텍처 관련
+    { source: "protov1", target: "v2", type: "evolves_to", label: "진화" },
+    { source: "protov1", target: "rag", type: "uses", label: "기본 RAG" },
+    { source: "protov1", target: "chromadb", type: "uses", label: "벡터 저장" },
+    { source: "v2", target: "graphrag", type: "uses", label: "핵심 기술" },
+    { source: "v2", target: "neo4j", type: "uses", label: "그래프 DB" },
+    { source: "v2", target: "notion", type: "uses", label: "데이터 소스" },
+    { source: "athena", target: "protov1", type: "uses", label: "1세대" },
+    { source: "athena", target: "v2", type: "uses", label: "2세대" },
+
+    // 기술 연결
+    { source: "langchain", target: "rag", type: "enables", label: "구현 프레임워크" },
+
+    // 커리큘럼 흐름 추가
+    { source: "ai-ml-basics", target: "embedding", type: "enables", label: "기반 지식" },
+    { source: "embedding", target: "rag-intro", type: "enables", label: "검색 기반" },
   ],
 };

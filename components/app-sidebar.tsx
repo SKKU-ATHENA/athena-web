@@ -13,6 +13,7 @@ import {
   Bot,
   CheckCircle2,
   ChevronRight,
+  MapIcon,
 } from "lucide-react";
 import {
   Sidebar,
@@ -38,6 +39,7 @@ import { getProgress } from "@/lib/progress";
 import { getStudyIcon } from "@/lib/icons";
 
 const mainNavItems = [
+  { href: "/curriculum", label: "학습 로드맵", icon: MapIcon },
   { href: "/pre-assignment", label: "내 손으로 만드는 RAG", icon: FlaskConical },
 ];
 
