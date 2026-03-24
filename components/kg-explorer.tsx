@@ -9,6 +9,8 @@ import {
   forceManyBody,
   forceCenter,
   forceCollide,
+  forceX,
+  forceY,
   type SimulationNodeDatum,
   type SimulationLinkDatum,
 } from "d3-force";
@@ -170,11 +172,40 @@ function ForceGraphView() {
       source: l.source, target: l.target, type: l.type, label: l.label,
     }));
 
+    // Link distance varies by relationship type
+    const linkDistance = (link: SimLink) => {
+      switch (link.type) {
+        case "part_of": return 80;    // tightly coupled
+        case "uses": return 100;
+        case "enables": return 120;
+        case "evolves_to": return 140;
+        case "compares": return 160;  // alternatives spread apart
+        default: return 120;
+      }
+    };
+
+    // Group clustering — nudge nodes toward quadrants by group
+    const groupTargetX: Record<string, number> = {
+      architecture: cx - cx * 0.15,
+      technology: cx + cx * 0.25,
+      concept: cx - cx * 0.2,
+      decision: cx + cx * 0.15,
+    };
+    const groupTargetY: Record<string, number> = {
+      architecture: cy - cy * 0.2,
+      technology: cy + cy * 0.15,
+      concept: cy + cy * 0.2,
+      decision: cy - cy * 0.25,
+    };
+
     const sim = forceSimulation(simNodes)
-      .force("link", forceLink<SimNode, SimLink>(simLinks).id((d) => d.id).distance(120))
-      .force("charge", forceManyBody().strength(-400))
-      .force("center", forceCenter(cx, cy))
-      .force("collide", forceCollide(45))
+      .force("link", forceLink<SimNode, SimLink>(simLinks).id((d) => d.id).distance(linkDistance))
+      .force("charge", forceManyBody().strength(-600))
+      .force("center", forceCenter(cx, cy).strength(0.05))
+      .force("collide", forceCollide<SimNode>((d) => getNodeSize(d).w / 2 + 8))
+      .force("x", forceX<SimNode>((d) => groupTargetX[d.group] || cx).strength(0.04))
+      .force("y", forceY<SimNode>((d) => groupTargetY[d.group] || cy).strength(0.04))
+      .alphaDecay(0.02)
       .on("tick", () => {
         setNodes([...simNodes]);
         setLinks([...simLinks]);
